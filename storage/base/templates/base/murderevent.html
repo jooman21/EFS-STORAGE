@@ -1,0 +1,209 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated and user.is_staff %}
+<style>
+  .enav{
+    margin-left: 140px;
+  }
+  .table-statics{
+    margin: 2vh 0 0 -2.5vw;
+  }
+  .card-statics{
+    margin: 6vh 0 0 -3.5vw;
+  }
+  .search-box {
+    height: 11vh; 
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    .Delete{
+      display: none;
+    }
+    .enav{
+      margin-left: 160px;
+    }
+    .card-statics{
+      margin: 5vh 1vw 0 5vw ;
+      width: 130px;
+    }
+    .cards{
+      position: relative;
+      margin: -2vh;
+      width: 130px;
+    }
+    .card-statics .card{
+      height: 16vh;
+      width: 12vw;
+    }
+    .card-title{
+      margin-left: 15px;
+      font-size: 16px;
+    }
+  
+    .table-statics{
+      margin: 3vh 0 0 -4vw ;
+      width: 36vw;
+    }
+    .total_regions{ 
+      position: relative;
+      width: 40vw;
+    }
+    .total_regions td{
+    padding: 0px;
+  }
+  }
+  
+  
+  @media screen and (min-width: 1024px) and (max-width: 1365px){
+    
+    .enav{
+      margin-left: 160px;
+    }
+    .table-statics{
+      margin-left: 1vh ;
+      max-width: 20vw;
+    }
+    .total_regions{ 
+      position: relative;
+      width: 70vw;
+    }
+    .total_regions td{
+    padding: 0px;
+  }
+  
+    .card-title{
+      margin-left: 6px;
+      font-size: 18px;
+    }
+    .card-statics{
+      margin: 7vh -2vw 0 -1.5vw;
+    }
+    .card-statics .card{
+      height: 18vh;
+  
+    }
+  
+  }
+   
+  @media screen and (min-width: 1366px) {
+  .table-statics{
+    margin: -1vh 0 0 -1vw;
+  } 
+  .card-statics{
+    margin: 6vh 0 0 1vw;
+  }
+  }
+  </style>
+<section>
+  <div class="enav">
+    {% include 'Enav.html' %}
+  </div>
+
+  <div class="card-statics">
+    <div class="cards">
+    
+      <div class="card ">
+        <div class="icon-case">
+          <span class="fa-solid fa-car-burst"></span>
+        </div>
+        <div class="box">
+          <h5 class="card-title">Vehicle Event's</h5>
+          <h5 class="card-title" style="text-align: center;">{{counted_v}}</h5>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="icon-case">
+          <span class="fa-solid fa-person-falling-burst"></span>
+        </div>
+        <div class="box">
+          <h5 class="card-title">Murder Event's</h5>
+          <h5 class="card-title" style="text-align: center;">{{counted_m}}</h5>
+        </div>
+      </div> 
+      
+      <div class="card">
+        <div class="icon-case">
+          <span class="fa-solid fa-person-running"></span>
+        </div>
+        <div class="box">
+          <h5 class="card-title">Theft Event</h5>
+          <h5 class="card-title" style="text-align: center;">{{counted_t}}</h5>
+        </div>
+      </div> 
+      
+      <div class="card">
+        <div class="icon-case">
+          <span class="fa-solid fa-check"></span>
+        </div>
+        <div class="box">
+          <h5 class="card-title">Total Events</h5>
+          <h5 class="card-title"style="text-align: center;">{{total_per_admin}}</h5>
+        </div>
+      </div> 
+      
+      <div class="card">
+        <div class="icon-case">
+          <span class="fa-solid fa-check"></span>
+        </div>
+        <div class="box">
+          <h5 class="card-title">Total Accounts</h5>
+          <h5 class="card-title"style="text-align: center;">{{employees_admin}}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <div class="table-statics">
+    <div class="total_regions">
+
+      <div class="title">
+        <h2>Murder Case's</h2>
+      </div>
+      
+      <table>
+        <tr>
+          <th>Accident Type</th>
+          <th>Upload By</th>
+          <th>Event Time</th>
+          <th>Upload Time</th>
+          <th>View</th>
+          <th class="Delete">Delete</th>
+        </tr>
+        
+        <tr>
+          {% for murvids in murder_list %}
+          {% if request.user.username == murvids.uploaded_by.admin_name %}
+          <td><small>{{murvids.incident}}</small></td>
+          <td>{{murvids.uploaded_by}}</td>
+          <td>{{murvids.created}}</td>
+          <td>{{murvids.upload}}</td>
+          <td><a href="{% url 'TMdetail' murvids.id %}"><button class="btn-solid-sm page-scroll" >View</button</a></td>
+          <td class="Delete"><a href="{% url 'deleteCase2' murvids.id %}"><button class="btn-del" >Delete</button</a></td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+      </table>
+      
+      <div class="pagination">
+        <strong>
+          {% if murder_list.has_previous %}
+          <a href="?page-1="> <span class="fa-solid fa-arrow-left"></span></a>
+          <a href="?page={{ murder_list.previous_page_number }}">Previous</a>
+          {% endif %}
+          <h5>{{ murder_list }}</h5>
+          {% if murder_list.has_next %}
+          <a href="?page={{ murder_list.next_page_number }}">Next</a>
+          <a href="?page={{ murder_list.paginator.num_pages }}"> <span class="fa-solid fa-arrow-right"></span></a>
+          {% endif %}
+        </strong>
+      </div>
+    </div>
+  </section>                
+      
+  {% else %}
+  {% include 'note.html' %}
+  {% endif %}
+  {% endblock content %}

@@ -1,0 +1,84 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated and user.is_superuser %}
+<style>
+   .card-body{
+    height: 40px;
+   }
+    .form{
+      margin-left: 14vw;
+      margin-top: -5vh;
+    }
+    .btn-upload{
+      margin-left: 19vw;
+      margin-top: 5vh;
+    }
+   
+    .upload-form{
+        float: left; 
+      }
+      .card-body .btn-create{
+      margin-top: 2vh;
+      margin-left: 2vw;
+    }
+@media screen and (max-width: 767px){
+  .form{
+  position: relative;
+  left: -15vw;
+}
+}
+
+@media screen and (min-width: 768px) and (max-width: 1079px) {
+.upload-form{
+  left: 15vw;
+  width: 350px;
+
+}
+.form{
+  position: relative;
+  left: -6vw;
+}
+}
+
+</style>
+<section>
+  <div class="card-body">
+    <div class="card-header" >
+      <h4 class="label"> Create Admin Account</h4> 
+    </div>
+  
+  
+    <div class="create-alarm">
+      {% for msg in messages %}
+        <h3>{{msg}}</h3>
+      {% endfor %} 
+    </div>
+  
+    <form action="" method="POST" class="upload-form">
+      {% csrf_token %}
+      
+      <div class="form">
+        {% for fields in newadmin %}
+        <div class="form__group">
+          <label class="upload-label">{{fields.label}}</label>
+            <div class="upload-fields">
+              {{fields}}
+            </div>
+          
+        </div>
+        {% endfor %}
+        <div class="btn-create" >
+          <button class="btn-solid-sm"  value="submit" >Create</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+   <div class="btn-upload">
+    <a  href="{% url 'admins' %}" class="btn-solid-sm" >View Admins</a>
+   </div>
+</section>
+{% endif %}
+{% endblock content %}

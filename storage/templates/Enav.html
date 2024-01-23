@@ -1,0 +1,18 @@
+<div class="dropdown show">
+  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Event Data
+  </a>
+  {% if request.user.is_superuser %}
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <a class="dropdown-item" href="{% url 'regions' region.id %}">Vehicle Data</a>
+    <a class="dropdown-item" href="{% url 'case2data' region.id %}">Theft Data</a>
+    <a class="dropdown-item" href="{% url 'case3data' region.id %}">Murder Data</a>
+  </div>
+  {% elif request.user.is_staff and request.user != is_superuser  %}
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <a class="dropdown-item" href="{% url 'admind' %}">Vehicle Data</a>
+    <a class="dropdown-item" href="{% url 'theftevent' %}">Theft Data</a>
+    <a class="dropdown-item" href="{% url 'murderevent' %}">Murder Data</a>
+  </div> 
+  {% endif %}
+</div>

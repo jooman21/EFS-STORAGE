@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Session Expired</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+
+
+        }
+        .notecontainer {
+            z-index: 10;
+            max-width: 500px;
+            padding: 50px;
+            background: #fff;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+            
+            position: relative;
+            top: 35%;
+            left: 40%;
+
+        }
+        
+        
+        .card-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .card-description {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            background: #4c5361;
+
+            color: #fff;
+            font-size: 16px;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background: #003356;
+        }
+
+    </style>
+</head>
+<body>
+    
+
+    <div class="notecontainer">
+
+        {% if request.user.is_active %}
+        <h1 class="card-title">Access Denied</h1>
+        <p class="card-description">Please Login Again.</p> 
+
+        {% elif request.user.is_staff %}
+            <h1 class="card-title">Access Denied</h1>
+            <p class="card-description">Please Login Again.</p>            
+
+        {% elif request.user != is_staff and request.user != is_superuser %}
+            <h1 class="card-title">Access Denied</h1>
+            <p class="card-description">Please Login Again.</p> 
+        {% else %}
+            <a href="{% url 'login' %}" class="btn">Login</a>
+        {% endif %}
+        <a href="{% url 'login' %}" class="btn">Login</a>
+    </div>
+
+</body>
+</html>

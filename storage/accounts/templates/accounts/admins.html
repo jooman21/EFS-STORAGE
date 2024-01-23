@@ -1,0 +1,130 @@
+{% extends 'index.html' %} 
+{% load static %} 
+{% block content %} 
+{%if user.is_authenticated and user.is_superuser %}
+<style>
+  .card-body {
+    height: fit-content;
+  }
+  .total_regions{
+    margin: 0 -13vw; 
+    width: fit-content
+  }
+  @media screen and (max-width: 767px){
+    .total_regions{
+    position: relative;
+    left: 20vw;
+    width: 450px;
+    overflow: hidden;
+  }
+  .lastname, .datejoin, .replace{
+    display: none;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1079px) {
+  .total_regions{
+    position: relative;
+    left: 20vw;
+    width: 70%;
+  }
+  .lastname, .datejoin{
+    display: none;
+  }
+}
+
+
+@media screen and (min-width: 1080px) and (max-width: 1365px){
+  .total_regions{
+    position: relative;
+    width: 80%;
+  }
+}
+
+</style>
+<section>
+  <div class="card-body total_regions">
+    <div class="create-alarm" style="margin-left: 7vw; width: 50vw">
+      {% for msg in messages %}
+      <h3>{{msg}}</h3>
+      {% endfor %}
+    </div>
+
+    <div class="title">
+      <h2>
+        Total Of <strong class="strong">{{total_admins}}</strong> Admin
+        Account's
+      </h2>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Region Name</th>
+          <th>First Name</th>
+          <th>User Name</th>
+          <th class="lastname">Last Name</th>
+          <th class="datejoin">Date Joined</th>
+          <th>View</th>
+          <th>Password</th>
+          <th class="replace">Change Admin</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for admin in adm_reg_list %}
+        <tr class="font-weight-light">
+          <th>{{admin.region}}</th>
+          <th>{{admin.username}}</th>
+          <th>{{admin.first_name}}</th>
+          <th class="lastname">{{admin.last_name}}</th>
+          <th class="datejoin">{{admin.date_joined|date}}</th>
+          <th>
+            <a action="" href="{% url 'accountdetail' admin.id %}"
+              ><button class="btn-solid-sm page-scroll">View</button></a>
+          </th>
+          <th>
+            <a action="" href="{% url 'reset' admin.id %}"
+              ><button class="btn-solid-sm page-scroll">Reset</button></a>
+          </th>
+          <th class="replace">
+            <a action="" href="{% url 'changeadmin' admin.id %}"
+              ><button class="btn-solid-sm page-scroll">Replace</button></a>
+          </th>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="pagination">
+      <strong>
+        {% if adm_reg_list.has_previous %}
+        <a href="?page-1=" class="btn btn-primary active">
+          <span class="fa-solid fa-arrow-left"></span
+        ></a>
+        <a
+          href="?page={{ adm_reg_list.previous_page_number }}"
+          class="btn btn-primary"
+          >Previous</a>
+        {% endif %}
+
+        <h5>{{ adm_reg_list }}</h5>
+        {% if adm_reg_list.has_next %}
+        <a
+          href="?page={{ adm_reg_list.next_page_number }}"
+          class="btn btn-primary"
+          >Next</a>
+        <a
+          href="?page={{ adm_reg_list.paginator.num_pages }}"
+          class="btn btn-primary active">
+          <span class="fa-solid fa-arrow-right"></span
+        ></a>
+        {% endif %}
+      </strong>
+    </div>
+  </div>
+</section>
+{% else %}
+{% include 'invalid.html' %}
+{% endif %}
+{% endblock content %}

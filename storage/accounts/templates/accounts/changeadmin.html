@@ -1,0 +1,139 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated and user.is_superuser %}
+<style>
+.cards{
+  margin-top: 4vh;
+  width: 16vw;
+  height: 8vh;
+}
+.card{ 
+  height: 22vh;
+}
+.replace-form{
+  position: absolute;
+  top: 5vh;
+  left: 42vw;
+  height: inherit;
+}
+@media screen and (max-width: 767px){
+  .card{
+    margin-top: 20px;
+    width: 35vw;
+    position: relative;
+  }
+  .cardtitle{
+    font-size: 15px;
+  }
+  .theform{
+    top: 40vh;
+    left: 20vw;
+    width: fit-content;
+  }
+}
+
+
+
+@media screen and (min-width: 768px) and (max-width: 1079px){
+  .card{
+    margin-top: 20px;
+    width: 35vw;
+    position: relative;
+  }
+  .theform{
+    top: 36vh;
+    left: 24vw;
+    width: fit-content;
+  }
+  .card-body{
+    height: 100vh;
+  }
+
+}
+@media screen and (min-width: 1080px) and (max-width: 1365px){
+  .card{
+    margin-top: 20px;
+    width: 35vw;
+    position: relative;
+  }
+  .theform{
+    top: 36vh;
+    left: 28vw;
+    width: fit-content;
+  }
+  .card-body{
+    height: 100vh;
+  }
+}
+
+@media screen and (min-width: 1366px) {
+  .card{
+    width: 16vw;
+    height: 16vh;
+  } 
+}
+
+</style>
+<section>
+  <div class="card-body" >
+    <div class="create-alarm">
+      {% for msg in messages %}
+        <h3>{{msg}}</h3>
+      {% endfor %} 
+    </div>
+
+    <div class="card-header">
+      <h4 class="label"> Admin Account<strong style=" color: red;"> "{{admin.username}}" </strong>Is To Be Replaced </h4> 
+    </div>
+    
+    <div class="cards card">
+      <h5 class="cardtitle">User Name: {{admin.username}}</h5>
+      <h5 class="cardtitle">First Name: {{admin.first_name}}</h5>
+      <h5 class="cardtitle">Last Name: {{admin.last_name}}</h5>
+      <h5 class="cardtitle">Date Join: {{admin.date_joined|date}}</h5>
+    </div>
+  </div>
+  
+  <form method="POST" class="replace-form cards theform" autocomplete="off">
+    {% csrf_token %}
+    <div class="card-header"  >
+      <h4 class="label">Admin Replacement Form</h4> 
+    </div>
+    
+    <div class="form">
+      <div class="form__group replace-formgroup">
+        
+        <label class="replace-label">Employee ID</label>  
+        <div class="replace-field">
+          <input type="text" name="username" required>
+        </div>
+        
+        <label class="replace-label">First Name</label>
+        <div class="replace-field">
+          <input type="text" name="first_name" required>
+        </div>
+        
+        <label class="replace-label">Last Name </label>
+        <div class="replace-field">
+          <input type="text" name="last_name" required>
+        </div>
+        
+        <label class="replace-label">Password </label>
+        <div class="replace-field">
+          <input type="password" name="password" required>
+        </div>
+        
+        <div class="btn-change">
+          <button class="btn-solid-sm"  value="submit" >Replace</button>
+        </div>
+      </div>
+      
+    </div>  
+  </form>
+  
+</section>
+{% else %}
+{% include 'invalid.html' %}
+{% endif %}
+{% endblock content %}

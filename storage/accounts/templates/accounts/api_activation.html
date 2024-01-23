@@ -1,0 +1,39 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+{% if request.user.is_superuser %}
+
+<section>
+    
+    <div class="card-body api">
+        <div class="create-alarm">
+            {% for msg in messages %}
+            <h3>{{msg}}</h3>
+            {% endfor %}
+        </div>
+
+        <div class="card-header api-header">
+            <h4 class="api-label" >Activating User Api Token</h4>
+        </div>
+        <hr>
+        <div class="box">
+            <h5 class="api-title">Employee Code: <strong> &nbsp &nbsp{{tokenuser.user}}</strong> </h5>
+            <h5 class="api-title">First Name: <strong> &nbsp &nbsp{{tokenuser.user.first_name}}</strong></h5>
+            <h5 class="api-title">Last Name: <strong> &nbsp &nbsp{{tokenuser.user.last_name}}</strong></h5>
+            <h5 class="api-title">Email (Organization): <strong> &nbsp &nbsp{{tokenuser.user.email}}</strong></h5>
+            <h5 class="api-title">Date Join: <strong> &nbsp &nbsp{{tokenuser.user.last_login|default_if_none:"Never" }}</strong></h5>
+            <h5 class="api-title key">Key: <strong>{{tokenuser}}</strong></h5>
+            
+            <form action="" method="POST">
+                {% csrf_token %}
+                
+                <div class="btn-change">
+                    <button class="btn-solid-sm"  value="submit" >Activate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+   
+</section>
+{% endif %}
+{% endblock content %}

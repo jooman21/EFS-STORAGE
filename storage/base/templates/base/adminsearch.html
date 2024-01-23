@@ -1,0 +1,49 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated and user.is_superuser %}
+<style>
+.cards  .card{
+  width: 15vw; 
+  height: 28vh;
+}
+  
+@media screen and (min-width: 1080px){
+  .cards  .card{
+  width: 14vw; 
+  }
+  .Vid-thu{
+    width: 14vw;
+  }
+}
+  
+@media screen and (min-width: 1366px){
+  .cards  .card{
+  width: 10.5vw; 
+  height: 21vh;
+  }
+  .Vid-thu{
+    width: 10.5vw;
+  }
+}
+</style>
+
+<section>
+  {% for x in v_video %}
+  <div class="cards" >
+    <div class="card" style="width: fit-content;">
+      <video class="Vid-thu"src="{{x.video.url}}" controls controlsList="nodownload">{{x.title}}</video>
+      <h5>{{x.title}}</h5>
+      {% if x.incident == "Car_Incident" %}
+      <a href="{% url 'vehdetail' x.id %}"><button class="btn-solid-sm" value="">View</button></a>
+      {% else %}
+      <a href="{% url 'TMdetail' x.id %}"><button class="btn-solid-sm" value="">View</button></a>
+      {% endif %}
+    </div>  
+  </div>    
+  {% endfor %}
+</section>
+{% else %}
+{% include 'note.html' %}
+{% endif %}
+{% endblock content %}

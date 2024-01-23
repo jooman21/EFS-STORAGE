@@ -1,0 +1,127 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<style>
+.detail{
+    margin-top: 6vh;
+    max-width: 32vw;
+}
+.btn-del{
+    top: -2vh;
+    left: 5vw;
+}
+.btn-goback{
+    top: -1vh; 
+    left: 5vh;
+}
+.VTitle h2{
+    margin-top: 1vw;
+}
+.create-alarm{
+   margin-left: 16rem;
+   margin-top: 2rem;
+}
+ @media screen and (min-width: 1366px) {
+    .btn-del{
+        top: 0vh;
+        left: -1vw;
+    }
+    .detail{
+        margin: 5vh 0 0 10vh;
+    }
+    .VTitle h2{
+        margin-left: -2vw;
+    }
+}
+</style>
+<section>
+   
+    <div class="question">
+        <h1 class="download-delete"><strong class="delete">Are you sure you want to delete?</strong></h1>
+    </div>
+    <div class="create-alarm">
+        {% for msg in messages %}
+          <h3>{{msg}}</h3>
+        {% endfor %} 
+      </div>
+    <div class="VTitle">
+        <h2><strong>{{video}}</strong></h2>
+    </div>
+
+    <div class="file" >
+        <form action="{% url 'deleteCase' video.id %}" method="POST"  class="deleteCase-form"novalidate onsubmit="return reasonField(event)">
+            {% csrf_token %}
+            <div class="form">
+                {% for fields in form %}
+            <div class="form__group" style="margin: 20px 80px 0 80px;">
+                <h4 class="upload-label">{{fields.label}}:</h4>
+                  {{fields}}
+              </div>
+                {% endfor %}
+            </div>
+            
+            <div class="btn-goback">
+                {% if request.user.is_authenticated and request.user.is_superuser %} 
+                <a  href="{% url 'superadmin' %}"><button type="button" class="btn-solid-sm" > Go Back </button></a>
+                {% else %}
+                <a  href="{% url 'admind' %}"><button type="button" class="btn-solid-sm" > Go Back </button></a>
+                
+            </div>
+        
+            <div class="confirm">
+                <button class="btn-del" value="delete" name="confirm">Confirm</button>
+            </div>
+        </form>
+        
+        <div class="detail">
+            <h5 class="data">Case: {{video.incident}}</h5>
+            <h5 class="data">Created By: {{video.uploaded_by}}</h5>
+            <h5 class="data">Event Happened: {{video.created}}</h5>
+            <h5 class="data">Event Uploaded: {{video.upload}}</h5>
+            {% if video.local_plate != is_null %} 
+            <h5 class="data">Intended Service: {{video.local_plate}}</h5>
+            <h5 class="data">Plate Region: {{video.plate_region}}</h5>
+            <h5 class="data">Plate Number: {{video.plate_number}}</h5>
+            {% else %}
+            <h5 class="data">Diplomat Country: {{video.diplomat_plate.plate_name}}</h5>
+            <h5 class="data">Diplomat Code (CD): {{video.diplomat_plate}}</h5>
+            <h5 class="data">Plate Number: {{video.plate_number}}</h5>
+            {% endif %}
+            <h5 class="data">Region:{{ video.region|default_if_none:"Super Admin" }}</h5>
+        </div>
+
+            
+        
+    </div>
+        
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function reasonField(event) {
+                var reasonField = document.getElementById('id_reason').value.trim();
+        
+                if (reasonField === '' || reasonField.length < 15) {
+                    console.log('Please provide a valid reason');
+                    event.preventDefault();
+                    return false;
+                } else {
+                    console.log('Form submission allowed');
+                    return true;
+                }
+            }
+        
+            var form = document.querySelector('.deleteCase-form');
+            if (form) {
+                form.addEventListener('submit', reasonField);
+            }
+        });
+    </script>
+    
+</section>
+
+{% endif %}
+{% endblock content %}
+
+

@@ -1,0 +1,58 @@
+for hp 1336 X 768 screens 
+@media screen and (min-width: 1024px) {
+      .upload-form{
+        float: left;
+        left: 15vw;
+      }
+    }
+
+@media screen and (min-width: 1080px) {
+  .table-statics{
+  margin: 2vh 0 0 5vw;
+}
+}
+
+
+
+
+
+
+
+for my desktop
+@media screen and (min-width: 1366px) {
+  .table-statics{
+  margin-top: -1vh ;
+  background-color: brown;
+} 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 767px){
+
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+
+}
+
+
+@media screen and (min-width: 1024px) and (max-width: 1365px){
+
+}
+
+@media screen and (min-width: 1366px){
+
+}

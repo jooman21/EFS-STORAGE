@@ -1,0 +1,134 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated and user.is_staff %}
+<style>
+  .cards{
+    margin-top: -5vh;
+  }
+  .card{
+    height: 30vh; 
+    width: 25vw; 
+    left: 27vw;
+  }
+  .total_regions{
+    margin: 0 -14vw; 
+    width: fit-content;
+  }
+  @media screen and (max-width: 767px){
+    .cards{
+    width: 450px;
+    left: 30px;
+  }
+  .card{
+    left: 0vw;
+    width: 80%; 
+  }
+  .total_regions{
+    width: 80%;
+    overflow: scroll;
+  }
+  .datejoin, .lastlogin, .lastname{
+    display: none;
+  }
+  .title{
+    width: 530px;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1185px) {
+  .cards{
+    width: 450px;
+    left: 30px;
+  }
+  .card{
+    left: 0vw;
+    width: 80%; 
+  }
+  .total_regions{
+    width: 80%;
+  }
+  .datejoin, .lastlogin, .lastname{
+    display: none;
+  }
+}
+
+</style>
+<section>
+  
+  <div class="cards" >
+    <div class="card" >
+      <div class="box">
+        <h5 class="card-title">{{admins.last_name}}</strong> <i>From</i> <strong>{{admins.region}}</h5>
+          <hr>
+        <h5 class="card-title">First Name: {{admins.first_name}}</h5>
+        <h5 class="card-title">Last Name: {{admins.last_name}}</h5>
+        <h5 class="card-title">Standard Users: {{total_standard_users}}</h5>
+        <h5 class="card-title">Date Join: {{admins.date_joined|date}}</h5>
+      </div>
+    </div>
+
+  </div>
+  
+  <div class="card-body total_regions">
+    <div class="title">
+      <h2><strong>{{total_standard_users}}</strong>  Standard Accounts</h2>
+    </div>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>Region Name</th>
+          <th>Employee Code</th>
+          <th>First Name</th>
+          <th class="lastname">Last Name</th>
+          <th class="datejoin">Date Join</th>
+          <th class="lastlogin">Last Login</th>
+          <th>Created By</th>
+          {% if acc_detail_list == is_staff %}
+          <th>More</th>
+          {% endif %}
+        </tr>
+      </thead>
+      
+      <tbody>
+        <tr>
+          {% for standard_user in acc_detail_list %}
+          <th>{{standard_user.region}}</th>
+          <th>{{standard_user.username}}</th>
+          <th>{{standard_user.first_name}}</th>
+          <th class="lastname">{{standard_user.last_name}}</th>
+          <th class="datejoin">{{standard_user.date_joined|date}}</th>
+          <th class="lastlogin">{{standard_user.last_login}}</th>
+          <th>{{standard_user.admin_name}}</th>
+          {% if standard_user == is_staff %}
+          <th><a href="{% url 'accountdetail' standard_user.id %}"><button class="btn-solid-sm" >View</button></a></th>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    
+    <div class="pagination">
+      <strong>
+        {% if acc_detail_list.has_previous %}
+        
+        <a href="?page-1=" class="btn btn-primary active"> <span class="fa-solid fa-arrow-left"></span></a>
+        <a href="?page={{ acc_detail_list.previous_page_number }}" class="btn btn-primary">Previous</a>
+        {% endif %}
+        
+        <h5>{{ acc_detail_list }}</h5>
+        {% if acc_detail_list.has_next %}
+        <a href="?page={{ acc_detail_list.next_page_number }}" class="btn btn-primary">Next</a>
+        <a href="?page={{ acc_detail_list.paginator.num_pages }}" class="btn btn-primary active"> <span class="fa-solid fa-arrow-right"></span></a>
+        {% endif %}
+      </strong>
+    </div>
+    
+  </div>
+  
+</section>
+{% else %}
+{% include 'note.html' %}
+{% endif %}
+{% endblock %}

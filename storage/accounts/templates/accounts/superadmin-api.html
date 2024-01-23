@@ -1,0 +1,124 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated and user.is_superuser %}
+<style>
+  .card-body{
+    height: 430px;
+  }
+.gift .too{
+  display: block;
+  padding-top: 1vh;
+  margin: 2vh 2vw;
+}
+
+.btn-upload{
+  margin-left: -2vw;
+} 
+.gift{
+  position: relative;
+  width: 15vw;
+  height: 21vh;
+  left: 21vw;
+}
+@media screen and (max-width: 767px){
+  .gift{
+    position: relative;
+    top: 45vh;
+    left: 0vw;
+      width: 30vw;
+      height: 20vh;
+    }
+    .upload-form{
+      position: fixed;
+      left: 40vw;
+      margin-top: 1vh;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .gift{
+    position: relative;
+    top: 45vh;
+    left: 2vw;
+      width: 25vw;
+      height: 20vh;
+    }
+    .upload-form{
+      position: fixed;
+      left: 40vw;
+      margin-top: 1vh;
+    }
+}
+
+
+  @media screen and (min-width: 1024px) {
+    .upload-form{
+      float: left;
+      margin-top: 1vh;
+    }
+    .gift{
+      width: 22vw;
+      height: 20vh;
+    }
+  }
+
+  @media screen and (min-width: 1366px) {
+    .gift{
+      width: 13.5vw;
+      height: 16vh;
+    }
+  }
+
+</style>
+<section>
+  <div class="card-body">
+    
+    <div class="card-header">
+      <h4 class="label"> Create Super-Admin</h4> 
+    </div>
+    
+    <div class="create-alarm">
+      {% for msg in messages %}
+        <h3>{{msg}}</h3>
+      {% endfor %} 
+    </div>
+  
+    <form action="" method="POST" class="upload-form">
+      {% csrf_token %}
+
+      <div class="form" >
+        <div class="form__group">
+          
+          <label for="" class="upload-label" >Employee ID</label>
+          <input type="text" name="username" maxlength="150" required="" id="id_username" class="upload-fields">
+
+
+          <label for="" class="upload-label" >First Name </label>
+          <input type="text" name="first_name" maxlength="150" required="" class="upload-fields" id="id_username">
+
+          <label for="" class="upload-label" >Last Name </label>
+          <input type="text" name="last_name" maxlength="150" required="" id="id_first_name" class="upload-fields">
+
+          <label for="" class="upload-label" >Password </label>
+          <input type="password" name="password" maxlength="128" required="" id="id_password" class="upload-fields">
+           
+          <label for="" class="upload-label" >Confrim Password </label>
+          <input type="password" name="password_confirm" maxlength="128" required="" id="id_password_confirm" class="upload-fields">
+          <div class="btn-upload" >
+            <button class="btn-solid-sm"  value="submit" >Create Super User</button> 
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="gift-card">
+    <div class="gift">
+      <a  class="to" href="{% url 'api-user' %}"><button class="btn-solid-sm">Create Api-user</button></a>
+      <a  class="too" href="{% url 'superadmins' %}"><button class="btn-solid-sm">Total Accounts</button></a>
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock content %}

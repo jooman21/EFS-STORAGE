@@ -1,0 +1,323 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %} 
+{% if user.is_authenticated and user.is_superuser %}
+<style>
+  .card-datas{
+    position: relative;
+    width: 11vw;
+    height: 28vh;
+    top: 8vh;
+    display: inline-block;
+    margin: 0 10px;
+    background-color: var(--nav-bar);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 15px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+  }
+  .card-datas .icon-case{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+  }
+  .card-datas .box h5{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+  }
+  .card-datas .box h4{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+  }
+  .card-static .card{
+    margin-bottom: -4vh;
+    height: 12vh;
+    width: 10vw;
+    margin-bottom: 20px;
+  }
+      .chart{
+        top: 4vh;
+        left: -19vw;
+        height: 450px;
+        width: 300px;
+        position: relative;
+        margin: 6vh 3vw 2vh -1vw;
+        background-color: var(--card-body);
+        box-shadow: 0 4px 8px;
+  }
+  #thestatics {
+        position: relative;
+        height: 300px;
+        width: 500px;
+        margin-left: 4vw; 
+        top: 6vh;
+      }
+    @media screen and (min-width: 768px) and (max-width: 1079px) {
+      .side-section {
+        display: none;
+      }
+      #thestatics {
+        position: relative;
+        height: 300px;
+        width: 500px;
+        margin-left: -4vw; 
+        top: 3vh;
+      }
+      .chart{
+        top: 4vh;
+        left: 30vw;
+        height: 300px;
+        width: 400px;
+      }
+      .card-datas{
+        height: 20vh;
+        width: 20vw;
+      }
+      .bottom-section {
+        position: relative;
+        width: 60vw;
+        left: 18vw;
+        display: flex;
+      }
+      .card-titles {
+        text-align: center;
+      }
+      .card-tit {
+        text-align: center;
+      }
+    }
+    @media screen and (min-width: 1080px) and (max-width: 1366px) {
+      .side-section {
+        left: 132vh;
+        top: 15vh;
+        /* outline: 1px solid red; */
+      }
+      .card-datas{
+        height: 21vh;
+        width: 12vw;
+      }
+      .chart {
+        top: 4vh;
+        left: 21vw;
+        height: 350px;
+        width: 500px;
+      }
+      #thestatics {
+        position: relative;
+        height: 300px;
+        width: 550px;
+        margin-left: -1vw; 
+        top: 5vh;
+      }
+      .bottom-section {
+        position: relative;
+        left: -2vw;
+        display: flex;
+      }
+      .card-titles {
+        text-align: center;
+      }
+      .card-title {
+        text-align: center;
+      }
+      .card-tit {
+        text-align: center;
+      }
+      .mar-top-d {
+        height: 29vh;
+        top: 2vh;
+      }
+     
+  }
+  @media screen and (min-width: 1367px) and (max-width: 2400px) {
+    .side-section {
+        left: 115vh;
+        top: 3vh;
+        display: flex;
+        flex-direction: column;
+        /* outline: 1px solid red; */
+      }
+    .chart {
+        top: 4vh;
+        left: 17vw;
+        height: 500px;
+        width: 600px;
+      }
+      #thestatics {
+        position: relative;
+        height: 400px;
+        width: 800px;
+        margin-left: -4vw; 
+      }
+      .card-datas{
+        height: 17vh;
+        width: 12vw;
+      }
+      
+      .boxs{
+        margin-top: 3vh;
+      }
+     
+  
+      .mar-top-d {
+        height: 22vh;
+      }
+     
+      .card-titles {
+        text-align: center;
+      }
+      .box-down {
+        text-align: center;
+      }
+      .card-tit {
+        text-align: center;
+      }
+      .bottom-section {
+        position: relative;
+        left: 3vw;
+        display: flex;
+      }
+     
+    } 
+  
+</style>
+
+<section>
+    <div class="chart">
+      <canvas id="thestatics"></canvas>
+    </div>
+  
+    <div class="card-static card-statics-pos">
+      <div class="bottom-section">
+        <div class="card-datas">
+          <div class="icon-case">
+            <span class="fa-solid fa-users"></span>
+          </div>
+  
+          <div class="box">
+            <h5 class="card-title">Regions</h5>
+            <h5 class="card-title">{{total_regions}}</h5>
+          </div>
+        </div>
+  
+        <div class="card-datas">
+          <div class="icon-case">
+            <span class="fa-solid fa-user-secret"></span>
+          </div>
+  
+          <div class="box">
+            <h5 class="card-title">Super Admins</h5>
+            <h4 class="card-title">{{Super_accounts}}</h4>
+          </div>
+        </div>
+  
+        <div class="card-datas">
+          <div class="icon-case">
+            <span class="fa-solid fa-users"></span>
+          </div>
+  
+          <div class="box">
+            <h5 class="card-title">Total Admins</h5>
+            <h4 class="card-title">{{adminaccounts}}</h4>
+          </div>
+        </div>
+  
+        <div class="card-datas">
+          <div class="icon-case">
+            <span class="fa-solid fa-users"></span>
+          </div>
+  
+          <div class="boxs">
+            <h5 class="card-tit">Standard Accounts</h5>
+            <h4 class="card-titles">{{useraccounts}}</h4>
+          </div>
+        </div>
+  
+        <div class="card-datas">
+          <div class="icon-case">
+            <span class="fa-solid fa-code"></span>
+          </div>
+  
+          <div class="box">
+            <h5 class="card-title">Api Users</h5>
+            <h4 class="card-title">{{api_users}}</h4>
+          </div>
+        </div>
+      </div>
+  
+      <div class="side-section">
+        <div class="card-data-s mar-top">
+          <div class="icon-case">
+            <span class="fa-sharp fa-solid fa-video"></span>
+          </div>
+  
+          <div class="box">
+            <h5 class="card-title">Total Event's</h5>
+            <h5 class="card-title">{{total_Events}}</h5>
+          </div>
+        </div>
+  
+        <div class="card-data-s mar-top">
+          <div class="icon-case">
+            <span class="fa-sharp fa-solid fa-video-slash"></span>
+          </div>
+          <div class="box">
+            <h5 class="card-title">Deleted Events</h5>
+            <h5 class="card-title">{{total_del_vid}}</h5>
+          </div>
+        </div>
+  
+        <div class="card-data-s mar-top mar-top-d">
+          <div class="icon-case">
+            <span class="fa-solid fa-arrow-down"></span>
+          </div>
+  
+          <div class="box-down">
+            <h5 class="card-title">Downloads</h5>
+            <h5 class="card-title">Vehicle: {{total_veh_download}}</h5>
+            <h5 class="card-title">Theft: {{total_the_download}}</h5>
+            <h5 class="card-title">Murder: {{total_mur_download}}</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+  
+<script>
+    var ctx = document.getElementById('thestatics').getContext('2d');
+    var thestatics = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Vehicle', 'Theft', 'Murder'],
+        datasets: [{
+          data: [{{ total_vehicle }}, {{ total_theft }}, {{ total_murder }}],
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.7)',
+            'rgba(54, 162, 235, 0.7)',
+            'rgba(255, 206, 86, 0.7)'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: false,
+        maintainAspectRatio: false,
+        legend: {
+          position: 'bottom'
+        }
+      }
+    });
+</script>
+  
+{% else %}
+{% include 'note.html' %}
+{% endif %}
+{% endblock content %}

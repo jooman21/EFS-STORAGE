@@ -1,0 +1,94 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+{% if request.user.is_authenticated and request.user.is_superuser %}
+<style>
+    .card-body{
+        height: 85vh;
+        height: 56vh;
+    }
+    .detail{
+        position: relative;
+        left: 10vw;
+        top: 1vh;
+    }
+    .btn-upload{
+    left: 10vw;
+}
+    @media screen and (max-width: 767px){
+        .detail{
+        left: 1%;
+    }
+    .card-body{
+        width: 48vw;
+        height: 84vh;
+    }
+    .btn-upload{
+        margin: 25px 35px;
+    left: 1vw;
+}
+}
+
+@media screen and (min-width: 768px) and (max-width: 1079px) {
+    .detail{
+        left: 8%;
+    }
+    .card-body{
+        width: 50vw;
+        height: 75vh;
+    }
+    .btn-upload{
+        margin: 35px 0;
+    left: 5vw;
+}
+}
+@media screen and (min-width: 1080px) and (max-width: 1366px){
+    .card-body{
+        width: 50vw;
+        height: 72vh;
+    }
+    .btn-upload{
+        margin: 35px 0;
+}
+}
+
+</style>
+
+<section class="card-body">
+    
+
+        <div class="card-header">
+            <h4 class="label">{{video}}</h4>
+        </div>
+
+        
+        <form action="{% url 'deletevent2' video.id %}" method="POST" >
+            {% csrf_token %}
+            
+            <div class="detail">
+                    <h5>Case: {{video.incident}}</h5>
+                    <h5>Created By: {{video.uploaded_by}}</h5>
+                    <h5>From - {{video.region}}</h5>
+                    <h5>Event Happened: {{video.created}}</h5> 
+                    <h5>Event Date - {{video.upload}}</h5>
+                    <h5>Deleted Time - {{video.deleted_time}}</h5>
+                    <h5>Deleted By: {{video.deleted_by}}</h5>
+                    <h5 style="color: rgb(33, 179, 247);">Reason: {{video.reason}}</h5>
+                    <h5 >Number of Downloads: {{video.number_of_download}}</h5>                
+            </div>
+              
+            <div class="btn-upload" >
+                {% if video.incident == "Theft" %}
+                <a class="btn-solid-sm"  href="{% url 'deletedevent2' %}" style="margin-right: 90px;">Go Back</a>
+                {% elif video.incident == "Murder" %}
+                <a class="btn-solid-sm" href="{% url 'deletedevent3' %}"style="margin-right: 90px;">Go Back</a>
+                {% endif %}
+                <button class="btn-del" value="delete" name="confirm">Confirm</button>
+            </div>
+        </form>
+    
+</section>
+{% else %}
+{% include 'note.html' %}
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,195 @@
+{% load static %}
+<style>
+@media screen and (max-width: 767px){
+  .side-menu{
+    width: 150px;
+  }
+  .hello{
+    width: 150px;
+  }
+  .options{
+    width: 150px;
+  }
+
+}
+
+@media screen and (min-width: 768px) and (max-width: 1079px) {
+  .side-menu{
+    width: 160px;
+  }
+  .side-menu li {
+    font-size: 14px;
+  }
+  .hello{
+    width: 160px;
+  }
+  .options{
+    width: 170px;
+  }
+}
+
+
+
+
+
+
+
+@media screen and (min-width: 1080px) and (max-width: 1365px){
+  .side-menu{
+    width: 180px;
+  }
+  .side-menu li {
+    font-size: 16px;
+  }
+  .hello{
+    width: 180px;
+  }
+  .options{
+    width: 180px;
+  }
+}
+
+@media screen and (min-width: 1366px) {
+  
+  .side-menu li {
+    font-size: 18px;
+  }
+}
+</style>
+<section>
+  {% if user.is_authenticated %}
+  <div class="side-menu">
+    <div class="logo">
+      <img src="{% static 'img/Ethiopia.png'  %}">
+    </div>
+
+    <div class="hello">
+      <div class="avater-text">
+        <small><strong>Hello, {{request.user}}</strong></small>
+      </div>
+    </div>
+    
+    <div class="options">
+      <ul>
+      
+        <li class="li-white">
+          {% if request.user.is_superuser %}
+          <a href="{% url 'superadmin' %}">
+            <span class="fa-sharp fa-solid fa-house"></span>
+            <span>Home</span>
+          </a>
+          {% elif request.user.is_staff and request.user != is_superuser %}
+          <a href="{% url 'admind' %}">
+            <span class="fa-sharp fa-solid fa-photo-film"></span>
+            <span>Videos</span>
+          </a>
+          
+          {% elif request.user.is_active  %}
+          <a href="{% url 'home' %}">
+            <span class="fa-sharp fa-solid fa-house"></span>
+            <span>Home</span>
+          </a>
+          {% endif %}
+        </li>
+        
+        {% if request.user.is_superuser == False and request.user.is_staff  %}
+        <li class="li-white">
+        <a href="{% url 'home' %}">
+          <span class="fa-sharp fa-solid fa-house"></span>
+          <span>Home</span>
+        </a>
+        </li>
+        {% endif %}
+  
+        
+        {% if request.user.is_superuser == False %}
+        <li class="li-white">
+          <a href="{% url 'upload' %}">
+            <span class="fa-solid fa-video fa-fw"></span>
+            <span>Upload</span>
+          </a>
+        </li>
+        {% endif %}
+  
+        {% if request.user.is_active  %}
+        <li class="li-white">
+          <a href="{% url 'changepwd' %}">
+            <span class="fa-solid fa-gears fa-fw"></span>
+            <span>Account Setting</span>
+          </a>
+        </li>
+        {% endif %}
+        
+        {% if request.user.is_superuser == False and request.user.is_staff %}
+        <li class="li-white">
+          <a href="{% url 'usercreation' %}">
+            <span class="fa-solid fa-user-plus fa-fw"></span>
+            <span>Create-User</span>
+          </a>
+        </li>
+        {% endif %}
+        {% if request.user.is_superuser == False and request.user.is_staff %}
+        <li class="li-white">
+          <a href="{% url 'adminsearch-engin' %}">
+            <span class="fa-brands fa-searchengin"></span>
+            <span>Search</span>
+          </a>
+        </li>
+        {% endif %}
+  
+        
+        {% if request.user.is_superuser %}
+        <li class="li-white">
+          <a href="{% url 'createadmin' %}">
+            <span class="fa-solid fa-user-plus fa-fw"></span>
+            <span>Admin</span>
+          </a>
+        </li>
+  
+        
+        <li class="li-white">
+          <a href="{% url 'superadmin-api' %}">
+            <span class="fa-solid fa-user-secret"></span>
+            <span>Super User</span>
+          </a>
+        </li>
+
+        <li class="li-white">
+          <a href="{% url 'creatregion' %}">
+            <span class="fa-solid fa-location-dot fa-fw"></span>
+            <span>Create</span>
+          </a>
+        </li>
+        {% endif %}
+  
+        {% if request.user.is_superuser %}
+        <li class="li-white">
+          <a href="{% url 'deletedevent' %}">
+            <span class="fa-solid fa-trash fa-fw"></span>
+            <span>Deleted Events</span>
+          </a>
+        </li>
+  
+        
+        <li class="li-white">
+          <a href="{% url 'downloads' %}">
+            <span class="fa-solid fa-download"></span>
+            <span>Downloads</span>
+          </a>
+        </li>
+
+    
+        <li class="li-white">
+          <a href="{% url 'logs' %}">
+            <span class="fa fa-history"></span>
+            <span>User Logs</span>
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+    
+  </div>
+  {% endif %}
+</section>
+  

@@ -1,0 +1,91 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<style>
+.detail{
+    top: 6vh;
+    margin-left: 3vw;
+    max-width: 32vw;
+}
+.file{
+    width: 70vw;
+}
+.video{
+    top: -6vh;
+}
+@media screen and (max-width: 767px){
+    .detail{
+        top: 70vh;
+        left: 12%;
+        max-width: 45vw;
+    }
+    .file{
+        height: 142vh;
+    }
+    .video{
+        left: 15%;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    .detail{
+        top: 70vh;
+        left: 12%;
+        max-width: 45vw;
+    }
+    .file{
+        height: 142vh;
+    }
+    .video{
+        left: 15%;
+    }
+}
+@media screen and (min-width: 1025px) and (max-width: 1365px){
+    .detail{
+        top: 8vh;
+        left: 39vw;
+        max-width: 50vw;
+    }
+}
+
+@media screen and (min-width: 1366px){
+    .detail{
+        top: 4vh;
+        margin-left: 3vw;
+    }
+
+}
+</style>
+<section>
+        <div class="VTitle">
+            <h2><strong>{{video}}</strong></h2>
+        </div>
+
+        <div class="file">
+            <div class="video">
+                <video src="{{display.url}}" controls style=" width: 430px; height: 400px; margin-top: 5vh;" autoplay controlsList="nodownload">{{display.title}}</video> 
+            </div>
+        
+            <div class="detail">
+                    <h5 class="data">Case: {{video.incident}}</h5>
+                    <h5 class="data">Created By: {{video.uploaded_by}}</h5>
+                    <h5 class="data" style="color: rgb(33, 179, 247);">Download By: {{video.downloaded_by.username}}</h5>
+                    <h5 class="data">Download Time: {{video.download_time}}</h5>
+                    <h5 class="data">Event Happened: {{video.created}}</h5>
+                    <h5 class="data">Event Uploaded: {{video.upload}}</h5>
+                    {% if video.local_plate != is_null %} 
+                    <h5 class="data">Intended Service: {{video.local_plate}}</h5>
+                    <h5 class="data">Plate Region: {{video.plate_region}}</h5>
+                    <h5 class="data">Plate Number: {{video.plate_number}}</h5>
+                    {% else %}
+                    <h5 class="data">Diplomat Country: {{video.diplomat_plate.plate_id}}</h5>
+                    <h5 class="data">Diplomat Code (CD): {{video.diplomat_plate}}</h5>
+                    <h5 class="data">Plate Number: {{video.plate_number}}</h5>
+                    {% endif %}
+                    <h5 class="data" style="color: rgb(33, 179, 247);"> Download Reason: {{video.reason}}</h5>
+                    <h5 class="data">Region:{{ video.region|default_if_none:"Super Admin" }}</h5>
+            </div>
+        </div>
+        
+</section>
+{% endblock %}

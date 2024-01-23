@@ -1,0 +1,128 @@
+{% load static %}
+{% if user.is_authenticated %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, width=device-width">
+  <link rel="stylesheet" href="{% static 'css/fontawesome-free-6.3.0-web/css/all.css' %}">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/extended.css' %}">
+
+  <script src="{% static 'js/chart.min.js' %}"></script>
+  <script src="{% static 'js/zoom.js' %}"></script>
+  
+  <link rel="icon" href="{% static 'img/Ethiopia.png' %}">
+  <title>EFS</title>
+<style>
+
+@media screen and (max-width: 767px){
+  .dyn-container{
+    background: none;
+    left: 22vw;
+    width: 600px;
+  }
+  .dynamic{
+    margin-left: -6vw;
+  }
+  .sign-out {
+      top: 4px;
+  }
+  #EFS{
+    top:6px;
+    font-size: 25px;
+  }
+  .EFS {
+  height: 8vh;
+  width: 573px;
+  left: 22vw;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .dyn-container{
+    background: none;
+    width: 880px;
+  }
+  .dynamic{
+    margin-left: 1vw;
+  }
+  
+  #EFS{
+    top:11px;
+    font-size: 35px;
+  }
+  .EFS {
+    height: 10vh;
+    width: 888px;
+    left: 16vw;
+  }
+}
+
+
+  @media screen and (min-width: 1024px) and (max-width: 1366px){
+    .dyn-container{
+    background: none;
+    width: 1144px;
+  }
+  .dynamic{
+    margin-left: 0vw;
+  }
+
+    .sign-out {
+      top: 13px;
+      left: 77vw;
+    }
+    #EFS{
+        top:9px;
+       }
+    .EFS {
+        height: 10vh;
+        
+      }
+     }
+     @media screen and (min-width: 1366px){
+    .EFS {
+        height: 8vh;
+      }
+      .sign-out {
+      top: 22px;
+      left: 82vw;
+    }
+    #EFS{
+        top:-10px;
+       }
+   }
+</style>
+
+</head>
+<body>
+  <div class="page-header">
+    <div class="EFS">
+      <h2 id="EFS">Extended Footage Storage Solution</h2>
+    </div>
+    
+    <div class="sign-out">
+      <a href="{% url 'logout_user' %}"><button type="button" class="btn btn-outline-danger">Logout</button></a>
+    </div>
+  </div><!-- End___top-navbar container -->
+  
+  <div class=".side-bar">
+    {% include 'navbar.html' %}
+  </div>
+
+    
+  <div class="dyn-container" >
+    <div class="dynamic">
+      {% block content %}
+
+      {% endblock content %}
+    </div>
+  </div>
+</body>
+</html>
+{% else %}
+{% include 'invalid.html' %}
+{% endif %}

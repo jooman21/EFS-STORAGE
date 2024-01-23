@@ -1,0 +1,134 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+{% if user.is_superuser %}
+<style>
+.upload-form{
+  margin-left: 14vw;
+  float: left;
+  margin-top: -1vh;
+  width: 40%;
+}
+.total_regions{
+  width: 90%; 
+  margin-top: 11vh;
+} 
+.btn-upload{
+  margin-left: -2vw;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1365px){
+  .key ,.datejoin{
+  display: none;
+}
+}
+
+
+@media screen and (min-width: 1366px) {
+.upload-form{
+  margin-left: 16vw;
+  float: left;
+  margin-top: -0.5vh;
+}
+.total_regions{
+  width: fit-content; 
+  margin-top: 11vh;
+  left: 3vw;
+} 
+}
+
+</style>
+<section>
+  <div class="card-body">
+    
+    <div class="card-header">
+      <h4 class="label"> Create Api-user</h4>
+    </div>
+    
+    <div class="create-alarm">
+      {% for msg in messages %}
+      <h3>{{msg}}</h3>
+      {% endfor %}
+    </div>
+    
+    <form action="" method="POST" class="upload-form">
+      {% csrf_token %}
+      <div class="form">
+        <div class="form__group">
+
+          <label class="upload-label" for="">Employee Code</label>
+          <div class="upload-fields">
+            <input type="text" name="username" maxlength="150" required="" id="id_username">
+          </div>
+          
+          <label class="upload-label" for="">First name</label>
+          <div class="upload-fields">
+            <input type="text" name="first_name" maxlength="150" id="id_first_name" required="">
+          </div>
+          
+          <label class="upload-label" for="">Last name</label>
+          <div class="upload-fields">
+
+          <input type="text" name="last_name" maxlength="150" id="id_last_name" required="">
+          </div>
+          
+          <label class="upload-label" for="">Password</label>
+          <div class="upload-fields">
+            <input type="text" name="password" maxlength="128" required="" id="id_password">
+          </div>
+            
+          <label class="upload-label" for="">Employees Office(Email)</label>
+          <div class="upload-fields">
+            <input type="email" name="email" maxlength="254" id="id_email" required="" placeholder="ID@their_orginazation" >
+          </div>
+          
+          
+          <div class="btn-upload" >
+            <button class="btn-solid-sm" value="submit">Create Api User</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  
+  <div class="total_regions">
+    <div class="title">
+      <h2>Total Of <strong class="strong">{{apiuser_total}}</strong>  Api Account's</h2>
+    </div>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>User Name</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th class="datejoin">Date Joined</th>
+          <th>Password</th>
+          <th>Activate</th>
+          <th>Last Login</th>
+          <th class="key"  style="color: rgb(61, 159, 240);">Key</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        {% for user in apiuser %}
+          {% if user.username != request.user.username %}
+        <tr>
+          <td>{{ user.username }}</td>
+          <td>{{ user.first_name }}</td>
+          <td>{{ user.last_name }}</td>
+          <td class="datejoin">{{ user.date_joined }}</td>
+          <td><a href="{% url 'reset' user.id %}"><button class="btn-solid-sm">Reset</button></a></td>
+          <td><a href="{% url 'api_activation' user.id %}"><button class="btn-solid-sm">Set</button></a></td>
+          <td>{{ user.last_login|default_if_none:"Never" }}</td>
+          <td class="key">{% for x in api_users %} {% if x.user.id == user.id %} <h5 style="color: rgb(61, 159, 240);">{{ x.key }}</h5> {% endif %} {% endfor %}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+      </tbody> 
+    </table>
+  </div>
+
+</section>
+{% endif %}
+{% endblock content %}

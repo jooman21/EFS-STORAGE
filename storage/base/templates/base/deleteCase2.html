@@ -1,0 +1,103 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<style>
+.detail{
+    top: 10vh; 
+    max-width: 32vw;
+}
+.btn-del{
+    top: -2vh;
+    left: 5vw;
+}
+.btn-goback{
+    top: -0.5vh; 
+    left: 5vh;
+}
+.VTitle h2{
+        margin-top: 1vw;
+    }
+@media screen and (min-width: 1366px) {
+    .btn-del{
+        top: 0.4vh;
+        left: -1vw;
+    }
+    .detail{
+        top: 6vh;
+    }
+    .VTitle h2{
+        margin-left: -2vw;
+    }
+}
+    </style>
+<section>
+    <div class="question">
+        <h1 class="download-delete"><strong class="delete">Are you sure you want to delete?</strong></h1>
+    </div>
+    <div class="create-alarm">
+        {% for msg in messages %}
+          <h3>{{msg}}</h3>
+        {% endfor %} 
+      </div>
+    <div class="VTitle">
+        <h2><strong>{{video}}</strong></h2>
+    </div>
+
+    <div class="file" >
+        <form action="{% url 'deleteCase2' video.id %}" method="POST"  class="deleteCase2-form" novalidate onsubmit="return reasonField(event)">
+            {% csrf_token %}
+            <div class="form">
+                {% for fields in form %}
+            <div class="form__group" style="margin: 20px 80px 0 80px;">
+                <h4 class="upload-label">{{fields.label}}: </h4>
+                  {{fields}}
+              </div>
+                {% endfor %}
+            </div>
+
+            <div class="btn-goback">
+                {% if request.user.is_authenticated and request.user.is_superuser %}
+                <a  href="{% url 'superadmin' %}"><button type="button" class="btn-solid-sm" > Go Back </button></a>
+                {% else %}
+                <a  href="{% url 'admind' %}"><button type="button" class="btn-solid-sm" > Go Back </button></a>
+
+            </div>
+
+            <div class="confirm">
+                <button class="btn-del" value="delete" name="confirm">Confirm</button>
+            </div>
+        </form>
+
+        <div class="detail">
+            <h5 class="data">Case: {{video.incident}}</h5>
+            <h5 class="data">Created By: {{video.uploaded_by}}</h5>
+            <h5 class="data">Event Happened: {{video.created}}</h5>
+            <h5 class="data">Event Uploaded: {{video.upload}}</h5>
+            <h5 class="data">Region:{{ video.region|default_if_none:"Super Admin" }}</h5>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function reasonField(event) {
+                var reasonField = document.getElementById('id_reason').value.trim();
+        
+                if (reasonField === '' || reasonField.length < 15) {
+                    console.log('Please provide a valid reason');
+                    event.preventDefault();
+                    return false;
+                } else {
+                    console.log('Form submission allowed');
+                    return true;
+                }
+            }
+        
+            var form = document.querySelector('.deleteCase2-form');
+            if (form) {
+                form.addEventListener('submit', reasonField);
+            }
+        });
+    </script>
+</section>
+
+{% endif %}
+{% endblock content %}

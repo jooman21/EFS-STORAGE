@@ -1,0 +1,180 @@
+@media only screen and (min-width: 1367px) and (max-width: 1920px) {
+  body{
+    width: fit-content;
+    overflow-x: hidden;
+  }
+ 
+  .detail{
+    left: 32.5vw;
+    top: -1.5vh;
+  }
+  .EFS {
+    height: 9vh;
+  }
+  .search-box {
+  height: 8vh; 
+}
+.btn-del{
+      
+  padding: 1.2em 1.5rem ;
+ 
+}
+.btn-solid-sm {
+  
+  padding: 1.2em 1.5rem 1.2rem 1.5rem;
+ 
+} 
+}
+@media only screen and (max-width: 1366px) {
+  body {
+    overflow-x: hidden;
+  }
+  .page-header {
+      top: 3px; 
+    }
+    .EFS {
+      padding: 15px;
+    }
+    #EFS{
+      position: relative;
+      font-size: 33px;
+      zoom: normal;
+    }
+    .sign-out {
+      position: absolute;
+      top: 15px;
+      left: 75vw;
+    }
+    .page-header {
+      position: fixed;
+      top: 7px;
+      width: fit-content;
+      z-index: 2;
+    
+    }
+    .dyn-container{
+      position: relative;
+      background-color: var(--dynamic-body);
+      left: 14vw;
+    }
+    .dynamic{
+      position: relative;
+      margin-top: 15vh;
+    }
+    .side-menu{
+      position:fixed;
+      top: 0;
+      box-shadow: 0 4px 8px;
+      background: var(--side-bar);
+      width: fit-content;
+ 
+      flex-direction: column;
+    
+    }
+    .hello {
+      width: 13vw;
+      
+    }
+   
+    .side-menu li {
+      font-size: 12px; 
+    }
+/* ----------------------------------upload style --------------------------*/
+     
+      /* .upload-form .upload-label{
+        width: 700px;
+        margin: 5px;
+      } */
+      /* home page style */
+      /* .Vid-thu{
+        width: 230px;
+        height: 370px;
+      } */
+      /* .cards{
+        position: relative;
+        margin-top: 15px;
+      } */
+     
+      /* ---------------table-statstics----------------------- */
+    
+    
+      .btn-del{
+      
+        padding: 1.2em 1.5rem ;
+       
+      }
+      .btn-solid-sm {
+        
+        padding: 1.2em 1.5rem 1.2rem 1.5rem;
+       
+      }
+     .forms{
+      float: left;
+      right: -30px;
+     }
+     /* .admin-search-box {
+      height: 10vh;
+    } */
+    /* .card-more-btn {
+      top: -6vh;
+      position: relative;
+      display: inline-block;
+    } */
+    .chart{
+      position: relative;
+      margin-top: 3vh;
+      margin-left: 15vw;
+      margin-bottom: 4vh;
+      margin-right: 3vw;
+      background-color: var(--card-body);
+      box-shadow: 0 4px 8px;
+      width: 40vw;
+      height: 50vh;
+    }
+    #thestatics{
+      position: relative;
+      height: 300px;
+      width: 500px
+    }
+    .card-statics{
+      position: relative;
+      float: left;
+      left: 1vw;
+      padding: 5px;
+    }
+    .card-data{
+      position: relative;
+      width: fit-content;
+      margin-bottom: 15px;
+      margin-right: -1px;
+      
+    }
+   
+    .card-data-s{
+      position: relative;
+      width: 13vw;
+      height: 20vh;
+      display: inline-block;
+      top: -2vh;
+      margin-left: 9vw;
+      margin-bottom: 10px;
+      
+    }
+    .card-data-ds{
+      position: relative;
+      width: fit-content;
+      height: fit-content;
+      display: inline-block;
+      top: -11vh;
+      background-color: var(--nav-bar);
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 15px 0 rgba(0, 0, 0, 0.19);
+      border-radius: 5px;
+    }   
+    
+}
+
+
+
+  
+
+  

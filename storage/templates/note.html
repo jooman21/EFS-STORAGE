@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Session Expired</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+
+
+        }
+
+        #animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color: #002945;
+            animation: noteAnimation 7s infinite;
+        }
+
+        @keyframes noteAnimation {
+            0% { background-color: #002945; }
+            
+            50% { background-color: #003356; }
+ 
+            100% { background-color: #002945; }
+        }
+
+
+
+
+        .notecontainer {
+            max-width: 500px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+            
+            position: relative;
+            top: 40%;
+            left: 40%;
+
+        }
+        
+        
+        .card-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .card-description {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            padding: 10px 5px;
+            background: #4c5361;
+
+            color: #fff;
+            font-size: 16px;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background: #003356;
+        }
+
+    </style>
+</head>
+<body>
+    
+<div id="animation">
+    <div class="notecontainer">
+        {% if user.is_authenticated and session_expired %}
+            <h1 class="card-title">Session Expired</h1>
+
+            <p class="card-description">
+                {% for msg in messages %}
+                    {{msg}}
+                {% endfor %}
+            </p>
+
+        {% else %}
+            <h1 class="card-title">404 Page not Found</h1>
+            <p class="card-description">
+                {% for msg in messages %}
+                    {{msg}}
+                {% endfor %}</p>
+            <p class="card-description">Please Login Again.</p>
+
+        {% endif %}
+        <a href="{% url 'login' %}" class="btn">Login</a>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated and user.is_superuser %}
+<style>
+      .total_regions{
+    margin: 0 -13vw; 
+    width: fit-content
+  }
+  @media screen and (max-width: 767px){
+    .total_regions{
+    position: relative;
+    left: 20vw;
+    width: 450px;
+    overflow: hidden;
+  }
+  .lastname, .datejoin{
+    display: none;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1079px) {
+  .total_regions{
+    position: relative;
+    left: 20vw;
+    width: 70%;
+  }
+  .lastname, .datejoin{
+    display: none;
+  }
+}
+
+
+@media screen and (min-width: 1080px) and (max-width: 1365px){
+  .total_regions{
+    position: relative;
+    width: 80%;
+  }
+}
+</style>
+
+<section>
+    <div class="card-body total_regions" >
+        <div class="title">
+            <h2>Total Of <strong class="strong">{{total_superuser}}</strong>  Super Admin Account's</h2>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>User Name</th>
+                    <th class="lastname">Last Name</th>
+                    <th class="datejoin">Date Joined</th>
+                    <th>Password</th>
+                    <th>Last Login</th>
+                    <th>Deactivate</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                {% for user in superuser %}
+                {% if user.username != request.user.username %}
+                <tr class="font-weight-light">
+                    <th>{{user.username}}</th>
+                    <th>{{user.first_name}}</th>
+                    <th class="lastname">{{user.last_name}}</th>
+                    <th  class="datejoin">{{user.date_joined|date}}</th>
+                    <th><a action="" href="{% url 'reset' user.id %}"><button class="btn-solid-sm">Reset</button></a></th>
+                    <th>{{user.last_login}}</th>
+                    <th><a href="{% url 'deleteuser' user.id %}"><button class="btn-del">Deactivate</button></th>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>      
+        </table>
+    </div>
+</section>
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,118 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+{% if request.user.is_superuser != True %}
+<style>
+.upload-form{
+  float: left;
+  }
+  @media screen and (max-width: 767px){
+    .create-choise{
+    left: 16vw; 
+    height: 45px;
+  }
+  .create-choise h3{
+    font-size: 22px;
+    
+  }
+  .uploadstyle{
+    position: relative;
+    margin-left: 15vw;
+    width: 68vw;
+    height: 40vh;
+  }
+  .card-body{
+    width: 48vw;
+    margin-right: -15px;
+    left: 19vw;
+    top: 4vh;
+    height: 36vh;
+  }
+  .enav{
+    left: 0vw;
+  }
+  }
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    .create-choise{
+    left: 16vw; 
+    height: 45px;
+  }
+  .create-choise h3{
+    font-size: 22px;
+    
+  }
+  .uploadstyle{
+    position: relative;
+    margin-left: 15vw;
+    width: 65vw;
+    height: 50vh;
+  }
+  .card-body{
+    width: 48vw;
+    margin-right: -15px;
+    left: 17vw;
+    top: 8vh;
+  }
+  .enav{
+    left: 0vw;
+  }
+  }
+</style>
+<section class="uploadstyle">
+  <div class="enav">
+    {% include 'Fnav.html' %}
+  </div>
+  
+  <div class="card-body">
+
+    <div class="create-alarm">
+      {% for msg in messages %}
+      <h3>{{msg}}</h3>
+      {% endfor %}
+    </div>
+    
+    <div class="card-header">
+      <h4 class="label"> Theft Case </h4>
+    </div>
+
+    <form action="" method="POST" enctype="multipart/form-data" novalidate onsubmit="return TheftForm()"  class="upload-form" >
+      {% csrf_token %}
+      
+      <div class="form">
+        {% for fields in tVform %}
+        <div class="form__group">
+          <label class="upload-label">{{fields.label}} 
+            {{fields}}
+        </div>
+          {% endfor %}
+        </div>
+        <div class="btn-upload" >
+          <button class="btn-solid-sm"  type="submit">Upload</button>
+        </div>
+      </div>
+    </form> 
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      function TheftForm(event) {
+        // Prevent the default form submission
+        event.preventDefault();
+
+        var videoUpload = document.getElementById('id_video').value;
+        // Example validation: Check if videoUpload is empty or has an invalid file type
+        if (videoUpload.trim() === '' ||  (videoInput.files[0].size > 3 * 1024 * 1024)) {
+        console.error('Video uploaded file can not be empty and size should not exceed 3 MB');
+        return false;
+        }
+
+      }
+  
+      var form = document.querySelector('.upload-form');
+      form.addEventListener('submit', TheftForm);
+    });
+  </script>
+</section>
+{% else %}
+{% include 'note.html' %}
+{% endif %}
+{% endblock content %}

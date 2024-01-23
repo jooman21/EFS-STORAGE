@@ -1,0 +1,142 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .detail{
+        top: 6vh;
+        margin-left: 5vw;
+        max-width: 32vw;
+    }
+    .btn-upload{
+        top: -2.5vh;
+        left: 11vw;
+    }
+    .btn-goback{
+        top: -1vh; 
+        left: 5vh;
+    }
+    @media screen and (max-width: 767px){
+        .btn-upload{
+            top: -3vh;
+            left: 9vw;
+        }
+        .btn-goback{
+    left: 9vw;
+        }
+        .detail{
+            left: 4vw;
+            top: 59vh;
+        }
+        .VTitle h2{
+            margin-left: -2vw;
+        }
+        .file{
+            height: 110vh;
+        }
+    }
+    
+    @media screen and (min-width: 768px) and (max-width: 1079px) {
+        .btn-upload{
+            top: -3vh;
+            left: 9vw;
+        }
+        .btn-goback{
+    left: 9vw;
+        }
+        .detail{
+            left: 4vw;
+            top: 59vh;
+        }
+        .VTitle h2{
+            margin-left: -2vw;
+        }
+        .file{
+            height: 105vh;
+        }
+    }
+    
+     @media screen and (min-width: 1366px) {
+        .btn-upload{
+            top: 0vh;
+            left: 2vw;
+        }
+        .detail{
+            margin-left: 4vw;
+            top: 4vh;
+        }
+        .VTitle h2{
+            margin-left: -2vw;
+        }
+    }
+</style>
+
+    
+<section class="downloadreasontm">
+    <div class="question">
+        <h1 class="download-delete"><strong class="download">Download Reason ?</strong> </h1>
+    </div>
+    <div class="create-alarm">
+        {% for msg in messages %}
+          <h3>{{msg}}</h3>
+        {% endfor %} 
+      </div>
+    <div class="VTitle">
+        <h2><strong>{{video.title}}</strong></h2>
+    </div>
+
+    <div class="file">
+        <form action="{% url 'downloadreasontm' video.id %}" method="POST" class="downloadTm-form"novalidate onsubmit="return reasonField(event)">
+            {% csrf_token %}
+            <div class="form">
+                {% for fields in form %}
+            <div class="form__group" style="margin: 5px 80px;">
+                <h2 class="upload-label">{{fields.label}}: </h2>
+                  {{fields}}
+              </div>
+                {% endfor %}
+            </div>
+            
+            <div class="btn-goback">
+                {% if request.user.is_authenticated and request.user.is_superuser %} 
+                <a  href="{% url 'superadmin' %}"><button type="button" class="btn-solid-sm" > Go Back </button></a>
+                {% else %}
+                <a  href="{% url 'admind' %}"><button type="button" class="btn-solid-sm" > Go Back </button></a>
+                {% endif %}
+            </div>
+        
+            <div class="btn-upload">
+                <button  class="btn-solid-sm save" value="submit" name="save">Save</button>
+            </div>
+        </form>
+        
+        <div class="detail">
+            <h5 class="data">Case: {{video.incident}}</h5>
+            <h5 class="data">Created By: {{video.uploaded_by}}</h5>
+            <h5 class="data">Event Happened: {{video.created}}</h5>
+            <h5 class="data">Event Uploaded: {{video.upload}}</h5>
+            <h5 class="data">Region: {{ video.region|default_if_none:"Super Admin" }}</h5>
+        </div>     
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function reasonField(event) {
+                var reasonField = document.getElementById('id_reason').value.trim();
+        
+                if (reasonField === '' || reasonField.length < 15) {
+                    console.log('Please provide a valid reason');
+                    event.preventDefault();
+                    return false;
+                } else {
+                    console.log('Form submission allowed');
+                    return true;
+                }
+            }
+        
+            var form = document.querySelector('.downloadTm-form');
+            if (form) {
+                form.addEventListener('submit', reasonField);
+            }
+        });
+    </script>
+</section>
+{% endblock content %}

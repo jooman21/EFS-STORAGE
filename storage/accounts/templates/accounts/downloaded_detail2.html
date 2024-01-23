@@ -1,0 +1,95 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<style>
+.detail{
+    top: 9vh;
+    margin-left: 3vw;
+    max-width: 32vw;
+}
+.file{
+    width: 70vw;
+}
+
+.detail{
+    top: 6vh;
+    margin-left: 3vw;
+    max-width: 32vw;
+}
+.file{
+    width: 70vw;
+}
+.video{
+    top: -6vh;
+}
+@media screen and (max-width: 767px){
+    .detail{
+        top: 60vh;
+        left: 12%;
+        max-width: 45vw;
+    }
+    .file{
+        height: 119vh;
+    }
+    .video{
+        left: 15%;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    .detail{
+        top: 60vh;
+        left: 12%;
+        max-width: 45vw;
+    }
+    .file{
+        height: 115vh;
+    }
+    .video{
+        left: 15%;
+    }
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1365px){
+    .detail{
+        top: 6vh;
+        left: 39vw;
+        max-width: 50vw;
+    }
+}
+
+@media screen and (min-width: 1366px){
+    .detail{
+        top: 5vh;
+        margin-left: 3vw;
+    }
+    .video{
+        top: -2vh;
+    }
+
+}
+</style>
+<section>
+        <div class="VTitle">
+            <h2><strong>{{video}}</strong></h2>
+        </div>
+
+        <div class="file">
+            <div class="video">
+                <video src="{{display.url}}" controls style=" width: 420px; height: 380px;" autoplay controlsList="nodownload">{{display.title}}</video> 
+            </div>
+        
+            <div class="detail">
+                    <h5 class="data">Case: {{video.incident}}</h5>
+                    <h5 class="data">Created By: {{video.uploaded_by}}</h5>
+                    <h5 class="data">Download By: {{video.downloaded_by.username}}</h5>
+                    <h5 class="data">Download Time: {{video.download_time}}</h5>
+                    <h5 class="data">Event Happened: {{video.created}}</h5>
+                    <h5 class="data">Event Uploaded: {{video.upload}}</h5>
+                    <h5 class="data" style="color: rgb(33, 179, 247);"> Download Reason: {{video.reason}}</h5>
+                    <h5 class="data">Region: {{ video.region|default_if_none:"Super Admin" }}</h5>
+            </div>
+        </div>
+        
+</section>
+{% endblock %}

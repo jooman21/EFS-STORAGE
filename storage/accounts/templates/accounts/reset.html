@@ -1,0 +1,91 @@
+{% extends 'accounts/admind.html' %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated and user.is_staff %}
+<style>
+  .upload-form{
+    margin-top: 0;
+  }
+  @media screen and (max-width: 767px){
+    .upload-form{
+        float: left;
+        position: relative;
+        top: 40vh;
+      }
+      .card-body{
+        width: 60vw;
+        height: 110vh;
+      }
+      .Tips{
+        left: 0vw;
+        width: 60vw;
+      }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1079px) {
+  .upload-form{
+        float: left;
+        left: 10vw;
+      }
+      .card-body{
+        width: 60vw;
+      }
+      .Tips{
+        left: 29vw;
+        width: 30vw;
+      }
+}
+
+  @media screen and (min-width: 1080px) {
+    .upload-form{
+      float: left;
+    }
+  }
+</style>
+
+<section class="card-body" >
+  <div class="card-header">
+   <h4 class="label"> Reset Password</h4> 
+  </div>
+  
+  <div class="create-alarm">
+    {% for msg in messages %}
+      <h3>{{msg}}</h3>
+    {% endfor %} 
+  </div>
+  
+  <form method="POST" class="upload-form" >
+    {% csrf_token %}
+    
+    <div class="form">
+      <div class="form__group">
+        {% if request.user.is_superuser %}
+        <label for="" class="upload-label" >Employee ID </label> 
+        <input type="text" value="{{Edit_password.username}}" readonly class="upload-fields">
+        {% endif %}
+        <label for="" class="upload-label" >First Name </label>
+        <input type="text" value="{{Edit_password.first_name}}" readonly class="upload-fields">
+        <label for="" class="upload-label" >Last Name </label>
+        <input type="text" value="{{Edit_password.last_name}}" readonly class="upload-fields">
+        <label for="" class="upload-label" >Password </label>
+        <input type="password" name="password" class="upload-fields">
+        <label for="" class="upload-label" >Confirm Password </label>
+        <input type="password" name="password2" class="upload-fields">
+      </div>
+
+      <div class="btn-upload" >
+        <button class="btn-solid-sm"  value="submit" >Reset</button> 
+      </div>
+    </div>
+  </form>
+
+  <div class="Tips">
+    <h5>Tips</h5>
+    <hr>
+    <p>1. Password Cannot be similar to other Personal information!</p>
+    <p>2. Password must contain at least 8 characters.</p>
+    <p>3. "Can Include @/01/Aa" </p>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

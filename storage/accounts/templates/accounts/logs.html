@@ -1,0 +1,91 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated and user.is_superuser %}
+<style>
+  .total_regions{
+    left: 7vw;
+  }
+  @media screen and (max-width: 767px){
+    .total_regions{
+    position: relative;
+    right : -8vw;
+    width: 50%;
+
+  }
+  .lastname{
+    display: none;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1079px) {
+  .total_regions{
+    position: relative;
+    right : -8vw;
+    width: 70%;
+
+  }
+  .lastname{
+    display: none;
+  }
+}
+
+
+@media screen and (min-width: 1080px) and (max-width: 1365px){
+  .total_regions{
+    position: relative;
+    width: 80%;
+    right : -8vw;
+  }
+}
+
+</style>
+<section>
+  
+  <div class="total_regions" >
+    
+    <div class="title">
+      <h2>Account's Last Seen </h2>
+    </div>
+    
+    <table>
+      <tr>
+        <th>Region</th>
+        <th>Employee Code</th>
+        <th>First Name</th>
+        <th class="lastname">Last Name</th>
+        <th>Last Login</th>
+        <th>Account Type</th>
+      </tr>
+      <tr>
+        {% for user in user_list %}
+        <td>{{user.region}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.first_name}}</td>
+        <td class="lastname">{{user.last_name}}</td>
+        <td>{{user.last_login}}</td>
+        <td>{% if user.is_superuser %} Super Admin {% elif user.is_staff %} Admin {% elif user.is_active %} User {% endif %}</td>
+      </tr>
+      
+      {% endfor %}
+    </table>
+    <div class="pagination">
+      <strong>
+        {% if user_list.has_previous %}
+        <a href="?page-1="> <span class="fa-solid fa-arrow-left"></span></a>
+        <a href="?page={{ user_list.previous_page_number }}">Previous</a>
+        {% endif %}
+        <h5>{{ user_list }}</h5>
+        {% if user_list.has_next %}
+        <a href="?page={{ user_list.next_page_number }}">Next</a>
+        <a href="?page={{ user_list.paginator.num_pages }}"> <span class="fa-solid fa-arrow-right"></span></a>
+        {% endif %}
+      </strong>
+    </div>
+  </div>
+</section>
+
+{% else %}
+{% include 'note.html' %}
+{% endif %}
+{% endblock content %}

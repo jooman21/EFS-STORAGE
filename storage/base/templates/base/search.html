@@ -1,0 +1,77 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated %}
+<style>
+.cards  .card{
+    width: 15vw; 
+    height: 28vh;
+}
+    
+@media screen and (min-width: 1080px){
+    .cards  .card{
+    width: 14vw; 
+    }
+    .Vid-thu{
+      width: 14vw;
+    }
+}
+    
+@media screen and (min-width: 1366px){
+    .cards  .card{
+    width: 10.5vw; 
+    height: 21vh;
+    }
+    .Vid-thu{
+      width: 10.5vw;
+    }
+}
+</style>
+
+<section>
+    {% for x in v_video %}
+    <div class="cards" >
+      <div class="card">
+        <video class="Vid-thu"src="{{x.video.url}}" controls controlsList="nodownload">{{x.title}}</video>
+        <h5>{{x.title}}</h5>
+        {% if x.incident == "Car_Incident" %}
+        <a href="{% url 'deleventdetail' x.id %}"><button class="btn-solid-sm" value="">View</button></a>
+        {% else %}
+        <a href="{% url 'deleventdetail2' x.id %}"><button class="btn-solid-sm" value="">View</button></a>
+        {% endif %}
+      </div>  
+    </div>
+  
+    {% empty %}
+    <div class="info">
+      <h1>No videos found</h1>
+    </div>
+    
+  {% endfor %}
+  
+  {% if Eventviews.has_other_pages %}
+  <div class="pagination">
+      <span class="step-links">
+          {% if Eventviews.has_previous %}
+              <a href="?page=1" class="btn btn-primary active" ><span class="fa-solid fa-arrow-left"></span></a>
+              <a href="?page={{ Eventviews.previous_page_number }}" class="btn btn-primary" >previous</a>
+          {% endif %}
+  
+          <span class="current-page">
+              Page {{ Eventviews.number }} of {{ Eventviews.paginator.num_pages }}.
+          </span>
+  
+          {% if Eventviews.has_next %}
+              <a href="?page={{ Eventviews.next_page_number }}" class="btn btn-primary">next</a>
+              <a href="?page={{ Eventviews.paginator.num_pages }}" class="btn btn-primary active"><span class="fa-solid fa-arrow-right"></span> 
+              </a>
+          {% endif %}
+      </span>
+  </div>
+  {% endif %}
+
+</section>
+{% else %}
+{% include 'invalid.html' %}
+{% endif %}
+{% endblock content %}

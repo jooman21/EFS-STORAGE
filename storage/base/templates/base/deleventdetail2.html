@@ -1,0 +1,79 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .detail{
+        top: 9vh;
+        margin-left: 3vw;
+        max-width: 32vw;
+    }
+    .file{
+        width: 70vw;
+    }
+    .video{
+        top: -1vh;
+    }
+    @media screen and (max-width: 767px){
+    .detail{
+        top: 60vh;
+        left: 12%;
+        max-width: 45vw;
+    }
+    .file{
+        height: 118vh;
+    }
+    .video{
+        left: 15%;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    .detail{
+        top: 60vh;
+        left: 12%;
+        max-width: 45vw;
+    }
+    .file{
+        height: 112vh;
+    }
+    .video{
+        left: 15%;
+    }
+}
+@media screen and (min-width: 1025px) and (max-width: 1365px){
+    .detail{
+        top: 12vh;
+        left: 40vw;
+        max-width: 45vw;
+    }
+}
+    @media screen and (min-width: 1366px){
+        .detail{
+            top: 6vh;
+        }
+    
+    }
+    </style>
+<section>
+        <div class="VTitle">
+            <h2><strong>{{video}}</strong></h2>
+        </div>
+
+        <div class="file">
+            <div class="video">
+                <video src="{{video.video.url}}" controls style=" width: 430px; height: 360px;" autoplay>{{video.video}}</video> 
+            </div>
+        
+            <div class="detail">
+                <h5 class="data">Case: {{video.incident}}</h5>
+                <h5 class="data">Created By: {{video.uploaded_by}}</h5>
+                <h5 class="data" style="color: rgb(33, 179, 247);">Deleted By: {{video.deleted_by}}</h5>
+                <h5 class="data">Deleted Time: {{video.deleted_time}}</h5>
+                <h5 class="data">Event Happened: {{video.created}}</h5>
+                <h5 class="data">Event Uploaded: {{video.upload}}</h5>
+                <h5 class="data" style="color: rgb(33, 179, 247);">Reason: {{video.reason}}</h5>
+        </div>
+        </div>
+        
+</section>
+{% endblock %}

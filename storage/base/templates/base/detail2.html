@@ -1,0 +1,76 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .detail{
+        margin: 14vh 5vw;
+        width: 26vw;
+    }
+    @media screen and (max-width: 767px){
+        .detail{
+        position: relative;
+        top: -3vh;
+        left: 8vw;
+        width: 45vw;
+    }
+    .video{
+        position: relative;
+        left: 8%;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1079px) {
+    .detail{
+        position: relative;
+        top: -3vh;
+        left: 8vw;
+        width: 45vw;
+    }
+    .video{
+        position: relative;
+        left: 12vw;
+    }
+}
+
+
+@media screen and (min-width: 1080px) and (max-width: 1365px){
+    .detail{
+        left: 82vh;
+        width: 25vw;
+    }
+    .file{
+        width: 75vw;
+    }
+}
+
+</style>
+<section>
+    <div class="VTitle">
+        <h2><strong>{{TMvideos}}</strong></h2>
+    </div>
+
+    <div class="file">
+        <div class="video">
+            <video src="{{TMvideos.video.url}}" controls controlsList="nodownload" width="450px" height="400" autoplay>{{TMvideos.video}}</video> 
+        </div>
+    
+        <div class="detail">
+            <h5 class="data">Case: {{TMvideos.incident}}</h5>
+            <h5 class="data">Position: {{TMvideos.title}}</h5>
+            <h5 class="data">Created by: {{TMvideos.uploaded_by}}</h5>
+            <h5 class="data">Event Uploaded: {{TMvideos.upload}}</h5>
+            <h5 class="data">Event Happened @ {{TMvideos.created}}</h5>
+        </div>
+    </div>
+
+    <form action="{% url 'TMdetail' TMvideos.id %}" method="POST">
+        {% csrf_token %}
+        
+        {% if request.user.is_staff %}
+        <div class="download">
+            <a href="{% url 'downloadreasontm' TMvideos.id %}" ><button type="button" class="btn-solid-sm"><span class="fa-solid fa-download"></span> Download</button></a>
+        </div>
+        {% endif %}
+    </form>
+</section>
+{% endblock %}

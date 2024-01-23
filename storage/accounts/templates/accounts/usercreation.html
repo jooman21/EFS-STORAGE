@@ -1,0 +1,190 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated and user.is_staff %}
+
+<style>
+  .card-body{
+    height: 440px;
+  }
+.upload-form{
+  margin-left: 14vw;
+  float: left;
+}
+.total_regions{
+  top: 5vh; 
+  left: 5vw;
+}
+@media screen and (max-width: 767px){
+.upload-form{
+    margin-left: 28px;
+    width: 250px;
+  }
+  .card-body{
+    left: 28vw;
+    width: 380px;
+
+  }
+  .LastLogin, .Delete, .btn-del{
+  display: none;
+}
+.btn-del{
+  display: none;
+}
+.Delete{
+  display: none;
+}
+
+.total_regions{
+  left: 14vw;
+width: 80%;
+}
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+.upload-form{
+    margin-left: 50px;
+    width: 300px;
+  }
+  .card-body{
+    left: 25vw;
+    width: 450px;
+  }
+  .total_regions{
+    left: 12vw;
+width: 70%;
+}
+.LastLogin{
+  display: none;
+}
+}
+
+
+@media screen and (min-width: 1024px) and (max-width: 1366px){
+  .total_regions{
+width: 80%;
+}
+}
+@media screen and (min-width: 1366px) {
+  .upload-form{
+    margin-top: 10px;
+  }
+}
+</style>
+
+<section>
+
+  <div class="card-body">
+    
+    <div class="card-header">
+      <h4 class="label"> Create User Account</h4> 
+    </div>
+
+    <div class="create-alarm">
+      {% for msg in messages %}
+        <h3>{{msg}}</h3>
+      {% endfor %} 
+    </div>
+    
+    <form action="{% url 'usercreation' %}" method="post" class="upload-form" >
+    
+      {% csrf_token %}
+      <div class="form">
+        
+        <div class="form__group">
+          <label class="upload-label">Username 
+            <div class="upload-fields">
+              <input type="text" name="username" maxlength="150" required="" id="id_username">
+            </div>
+          </label>
+        </div>
+        
+        <div class="form__group">
+          <label class="upload-label">First name 
+          <div class="upload-fields">
+            <input type="text" name="first_name" maxlength="150" required="" id="id_first_name">
+          </div>
+          </label>
+        </div>
+        
+        <div class="form__group">
+          <label class="upload-label">Last name 
+            <div class="upload-fields">
+              <input type="text" name="last_name" maxlength="150" required="" id="id_last_name">
+            </div>
+          </label>
+        </div>
+        
+        <div class="form__group">
+          <label class="upload-label">Password
+            <div class="upload-fields">
+              <input type="password" name="password" maxlength="128" required="" id="id_password">
+            </div>
+          </label>
+        </div>
+        <div class="form__group">
+          <label class="upload-label">Confim Password
+            <div class="upload-fields">
+              <input type="password" name="password_confirm" maxlength="128" required="" id="id_password">
+            </div>
+          </label>
+        </div>
+        <div class="btn-change" style="display: block;">
+            <button class="btn-solid-sm" value="submit">Create</button> 
+        </div>
+      </div>
+
+    </form>
+  </div>
+  
+  
+  <div class="total_regions">
+    <div class="title">
+      <h4 style="color: white;">Total of <strong class="strong">{{number_of_users}}</strong> Accounts in {{request.user.region}} Supervised by <strong>{{request.user}}</strong></h4>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Employee Code</th>
+          <th class="LastLogin">Last Login</th>
+          <th>Password</th>
+          <th class="Delete">Delete</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        {% for users in User_list %}
+        <tr>
+          <th>{{users.first_name}}</th>
+          <th>{{users.username}}</th>
+          <th class="LastLogin">{{users.last_login}}</th>
+          <th><a href="{% url 'reset' users.id %}"><button class="btn-solid-sm">Edit</button></a></th>
+          <th class="Delete"><a href="{% url 'deleteuser' users.id %}"><button class="btn-del">Delete</button></a></th>
+        </tr>
+        {% endfor %} 
+      </tbody>
+    </table>
+    
+    <div class="pagination">
+      <strong>
+        {% if User_list.has_previous %}
+        <a href="?page-1="> <span class="fa-solid fa-arrow-left"></span></a>
+        <a href="?page={{ User_list.previous_page_number }}">Previous</a>
+        {% endif %}
+        <h5>{{ User_list }}</h5>
+        {% if User_list.has_next %}
+        <a href="?page={{ User_list.next_page_number }}">Next</a>
+        <a href="?page={{ User_list.paginator.num_pages }}"> <span class="fa-solid fa-arrow-right"></span></a>
+        {% endif %}
+      </strong>
+    </div>
+    
+  </div>
+</div>
+</section>
+{% endif %}
+{% endblock %}
+
+

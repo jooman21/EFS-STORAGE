@@ -1,0 +1,157 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated and user.is_staff %}
+<style>
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2vh;
+}
+
+.admin-search-box {
+  background-color: var(--side-bar);
+  border-radius: 40px;
+  padding: 10px;
+  height: 8vh;
+  display: flex;
+  align-items: center;
+}
+
+.admin-search-box > .search-txt {
+  width: 240px;
+  padding: 0 6px;
+  margin: 5px;
+  border: none;
+  outline: none;
+}
+
+.admin-search-box > #date-input {
+  width: 240px;
+  padding: 0 6px;
+  margin: 5px;
+  border: none;
+  outline: none;
+}
+
+
+.admin-search-box:hover > .search-txt,
+.admin-search-box:hover > #date-input {
+  width: 240px;
+  padding: 0 6px;
+  border-radius: 8px;
+  background: var(--dynamic-body);
+}
+.search-btn{
+  margin-top: 23px;
+}
+
+/* New Added Style -------------------*/
+.cards  .card{
+width: 15vw; 
+height: 28vh;
+}
+
+
+
+@media screen and (max-width: 767px){
+  .section{
+    position: relative;
+    left: 40px;
+    top: 20vh;
+    width: 600px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 5px;
+    padding: 5px;
+  }
+  .cards  .card{
+    width: 150px; 
+    height: 150px;
+  }
+  .Vid-thu{
+    width: 150px;
+  }
+  .admin-search-box{
+    right: -35vw;
+    width: 70%;
+  }
+}
+
+
+@media screen and (min-width: 768px) and (max-width: 1079px) {
+  .section{
+    top: 20vh;
+    width: 900px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .cards .card {
+    width: 180px;
+    height: 180px;
+  }
+  .Vid-thu {
+    width: 180px;
+  }
+}
+
+
+@media screen and (min-width: 1080px){
+.cards  .card{
+width: 14vw; 
+}
+.Vid-thu{
+  width: 14vw;
+}
+}
+
+@media screen and (min-width: 1366px){
+.cards  .card{
+width: 10.5vw; 
+height: 21vh;
+}
+.Vid-thu{
+  width: 10.5vw;
+}
+}
+</style>
+
+<section>
+  <div class="search-container">
+    <form action="{% url 'adminsearch-engin' %}" method="GET" class="admin-search-box">
+      <input class="search-txt" type="text" name="q" placeholder="Search Video" required>
+      <label for="date-input"></label>
+      <input type="date" id="date-input" name="d" required>
+      <button class="search-btn" type="submit"><i class="fas fa-search" ></i></button>
+    </form>
+  </div>
+  
+
+  
+  
+  <div class="section">
+    {% for x in v_video %}
+    <div class="cards">
+      <div class="card">
+        <video class="Vid-thu"src="{{x.video.url}}" controls controlsList="nodownload">{{x.title}}</video>
+        <h5>{{x.title}}</h5>
+        {% if x.incident == "Car_Incident" %}
+        <a href="{% url 'vehdetail' x.id %}"><button class="btn-solid-sm" value="">View</button></a>
+        {% else %}
+        <a href="{% url 'TMdetail' x.id %}"><button class="btn-solid-sm" value="">View</button></a>
+        {% endif %}
+      </div>  
+    </div>
+  </div>
+  {% endfor %}
+
+  </div>
+  
+  
+</section>
+{% else %}
+{% include 'note.html' %}
+{% endif %}
+{% endblock content %}

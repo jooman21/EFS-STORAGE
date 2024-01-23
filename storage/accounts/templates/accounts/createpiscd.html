@@ -1,0 +1,152 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated and user.is_superuser %}
+<style>
+.upload-form{
+  float: left;
+  margin: 1vh 12vw;
+}
+.form__group{
+  margin-left: 2vw;
+}
+.btn-upload{
+  margin-left: 2vw;
+}
+@media screen and (max-width: 767px){
+  .creat-reg-plate{
+    position: relative;
+  left: 15vw;
+  width: 60%;
+}
+.card-body {
+  width: 50vw;
+}
+}
+
+@media screen and (min-width: 768px) and (max-width: 1079px) {
+  .creat-reg-plate{
+    position: relative;
+  left: 7vw;
+  width: 70%;
+}
+.card-body {
+  width: 45vw;
+}
+}
+
+
+@media screen and (min-width: 1080px) and (max-width: 1365px){
+  .creat-reg-plate{
+    position: relative;
+  left: 5vw;
+  width: 80%;
+}
+.card-body {
+  width: 35vw;
+}
+.create-choise{
+    margin-left: -12vw;
+  }
+}
+
+@media screen and (max-width: 1366px) {
+  .form__group{
+    margin-left: -2vw;
+  }
+  .create-choise{
+    margin-left: -6vw;
+  }
+}
+</style>
+<section>
+  <div class="create-choise ">
+    <h3 class="create"><a href="{% url 'creatregion' %}" class="choise ">Region</a></h3>
+    <h3 class="create"><a href="{% url 'createpis' %}" class="choise first-choise">Plate Intended Service</a></h3>
+    <h3 class="create "><a href="{% url 'createpr' %}" class="choise">Plate Region</a></h3>
+  </div>
+
+  <div class="create-choise" style="position: relative; top: 5vh; left: 30vw;">
+    <h3 class="create"><a href="{% url 'createpis' %}" class="choise ">Local Plate</a></h3>
+    <h3 class="create"><a href="{% url 'createpiscd' %}" class="choise first-choise">Diplomatic Code</a></h3>
+  </div>
+
+  <div class="card-body " style="height: 250px; top: 10vh;">
+
+    <div class="create-alarm">
+      {% for msg in messages %}
+        <h3>{{msg}}</h3>
+      {% endfor %} 
+    </div>
+    
+    <div class="card-header">
+      <h4 class="label"> Diplomatic Vehicle Plate </h4> 
+    </div>
+  
+    
+    <form action="" method="post" class="upload-form" style="margin: 3vh 15vw;" >
+      {% csrf_token %}
+      <div class="form" >
+        <div class="form__group" >
+            <label >ID:</label>
+            <input type="number" id="quantity" name="num" min="1" max="500" required style="display: block;">
+            <label >Name:</label>
+            <input type="text" name="pis" required style="display: block;">
+          
+
+          <div class="btn-upload" >
+            <button class="btn-solid-sm"  value="submit" >Create</button>
+          </div>
+        </div>
+
+      </div>
+      
+    </form>
+
+  </div>
+  <div class="creat-reg-plate">
+    <div class="title">
+      <h4 style="color: white;">Total of <strong class="strong">{{plateservice}}</strong> For Diplomatic Vehicles</h4>
+    </div>
+    
+    <!-- user data -->
+    <table>
+      <thead>
+        <tr>
+          <th>Plate ID</th>
+          <th>Plate Name</th>
+          <th>Created By</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        {% for Plate in Pis_list %}
+        <tr>
+          <th>{{Plate.plate_id}}</th>
+          <th>{{Plate.plate_name}}</th>
+          <th>{{Plate.created_by}}</th>
+        </tr>
+        {% endfor %} 
+      </tbody>
+    </table> <!--END "user data" END-->
+    
+    <div class="pagination">
+      <strong>
+        {% if Pis_list.has_previous %}
+        <a href="?page-1="> <span class="fa-solid fa-arrow-left"></span></a>
+        <a href="?page={{ Pis_list.previous_page_number }}">Previous</a>
+        {% endif %}
+        <h5>{{ Pis_list }}</h5>
+        {% if Pis_list.has_next %}
+        <a href="?page={{ Pis_list.next_page_number }}">Next</a>
+        <a href="?page={{ Pis_list.paginator.num_pages }}"> <span class="fa-solid fa-arrow-right"></span></a>
+        {% endif %}
+      </strong>
+    </div>
+    
+  </div>
+</section>
+{% else %}
+{% include 'note.html' %}
+{% endif %}
+{% endblock content %}

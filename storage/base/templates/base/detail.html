@@ -1,0 +1,85 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .detail{
+        margin: 11vh 5vw;
+        width: 23vw;
+    }
+    @media screen and (max-width: 767px){
+        .detail{
+        position: relative;
+        top: -3vh;
+        left: 8vw;
+        width: 45vw;
+    }
+    .video{
+        position: relative;
+        left: 8%;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1079px) {
+    .detail{
+        position: relative;
+        top: -3vh;
+        left: 8vw;
+        width: 45vw;
+    }
+    .video{
+        position: relative;
+        left: 12vw;
+    }
+}
+
+
+@media screen and (min-width: 1080px) and (max-width: 1365px){
+    .detail{
+        left: 82vh;
+        width: 25vw;
+    }
+    .file{
+        width: 75vw;
+    }
+}
+
+</style>
+<section>
+    <div class="VTitle">
+        <h2><strong>{{videos}}</strong></h2>
+    </div>
+
+    <div class="file">
+        <div class="video">
+            <video src="{{videos.video.url}}" controls controlsList="nodownload" width="450px" height="400" autoplay>{{video.video}}</video> 
+        </div>
+    
+        <div class="detail">
+            <h5 class="data">Created By____{{videos.uploaded_by}}</h5>
+            <h5 class="data">Case: {{videos.incident}}</h5>
+            <h5 class="data">Position: {{videos.title}}</h5>
+            <h5 class="data">Event Happened @ {{videos.created}}</h5>
+            <h5 class="data">Event Uploaded: {{videos.upload}}</h5>
+            {% if videos.local_plate != is_null %}
+            <h5 class="data">Intended Service: {{videos.local_plate}}</h5>
+            <h5 class="data">Plate Region: {{videos.plate_region}}</h5>
+            <h5 class="data">Plate Number: {{videos.plate_number}}</h5>
+            {% else %}
+            <h5 class="data">Diplomat Country: {{videos.diplomat_plate.plate_id}}</h5>
+            <h5 class="data">Diplomat Code (CD): {{videos.diplomat_plate}}</h5>
+            <h5 class="data">Plate Number: {{videos.plate_number}}</h5>
+            {% endif %}
+        </div>
+    </div>
+
+    <form action="{% url 'vehdetail' videos.id %}" method="POST">
+        {% csrf_token %}
+        
+        {% if request.user.is_staff %}
+        <div class="download">
+            <a href="{% url 'downloadreason' videos.id %}" ><button type="button" class="btn-solid-sm"><span class="fa-solid fa-download"></span> Download</button></a>
+        </div>
+        {% endif %}
+    </form>
+</section>
+{% endblock %}

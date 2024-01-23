@@ -1,0 +1,223 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated and user.is_staff %}
+<style>
+.enav{
+  margin-left: 140px;
+}
+.table-statics{
+  margin: 2vh 0 0 -2.5vw;
+}
+.card-statics{
+  margin: 6vh 0 0 -3.5vw;
+}
+.search-box {
+  height: 11vh; 
+}
+@media screen and (min-width: 768px) and (max-width: 967px){
+  .eventTime{
+    display: none;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+
+  .AccidentType, .UploadTime, .Delete{
+    display: none;
+  }
+  .enav{
+    margin-left: 160px;
+  }
+  .card-statics{
+    margin: 5vh 1vw 0 5vw ;
+    width: 130px;
+  }
+  .cards{
+    position: relative;
+    margin: -2vh;
+    width: 130px;
+  }
+  .card-statics .card{
+    height: 16vh;
+    width: 12vw;
+  }
+  .card-title{
+    margin-left: 15px;
+    font-size: 16px;
+  }
+
+  .table-statics{
+    margin: 3vh 0 0 -4vw ;
+   
+  }
+  .total_regions{ 
+    position: relative;
+   
+  }
+  .total_regions td{
+  padding: 0px;
+}
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1190px){
+  .AccidentType{
+    display: none;
+  }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1365px){
+  
+  .enav{
+    margin-left: 160px;
+  }
+  .table-statics{
+    margin-left: 1vh ;
+    max-width: 20vw;
+  }
+  .total_regions{ 
+    position: relative;
+    width: 70vw;
+  }
+  .total_regions td{
+  padding: 0px;
+}
+
+  .card-title{
+    margin-left: 6px;
+    font-size: 18px;
+  }
+  .card-statics{
+    margin: 7vh -2vw 0 -1.5vw;
+  }
+  .card-statics .card{
+    height: 18vh;
+
+  }
+
+}
+ 
+@media screen and (min-width: 1366px) {
+.table-statics{
+  margin: -1vh 0 0 -1vw;
+} 
+.card-statics{
+  margin: 6vh 0 0 1vw;
+}
+}
+</style>
+
+<section>
+  <div class="enav">
+    {% include 'Dnav.html' %}
+  </div>
+  
+  <div class="de-search-box">
+    <form action="{% url 'search' %}" method="GET" class="search-box">
+      <input class="search-txt" type="text" name="q" placeholder="Search Video" required>
+      <label for="date-input"></label>
+      <input type="date" id="date-input" name="d" required>
+      <button class="search-btn" type="submit"><i class="fas fa-search"></i></button>
+    </form>
+  </div>
+
+
+  <div class="card-statics">
+    <div class="cards">
+    
+      <div class="card">
+        <div class="icon-case">
+          <span class="fa-solid fa-car-burst"></span>
+        </div>
+        <div class="box">
+          <h5 class="card-title">Vehicle Event's</h5>
+          <h5 class="card-title" style="text-align: center;">{{deleted_veichle}}</h5>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="icon-case">
+          <span class="fa-solid fa-person-falling-burst"></span>
+        </div>
+        <div class="box">
+          <h5 class="card-title">Murder Event's</h5>
+          <h5 class="card-title" style="text-align: center;">{{deleted_murder}}</h5>
+        </div>
+      </div> 
+      
+      <div class="card">
+        <div class="icon-case">
+          <span class="fa-solid fa-person-running"></span>
+        </div>
+        <div class="box">
+          <h5 class="card-title">Theft Event</h5>
+          <h5 class="card-title" style="text-align: center;">{{deleted_theft}}</h5>
+        </div>
+      </div> 
+      
+      <div class="card">
+        <div class="icon-case">
+          <span class="fa-solid fa-check"></span>
+        </div>
+        <div class="box">
+          <h5 class="card-title">Total Events</h5>
+          <h5 class="card-title"style="text-align: center;">{{total_event}}</h5>
+        </div>
+      </div> 
+    </div>
+  </div>
+  
+  <div class="table-statics">
+    <div class="total_regions">
+      
+      <div class="title">
+        <h2>Vehicle Incident's</h2>
+      </div>
+      
+      <table>
+        <tr >
+          <th class="AccidentType">Accident Type</th>
+          <th>Upload By</th>
+          <th class="eventTime">Event Time</th>
+          <th class="UploadTime">Upload Time</th>
+          <th>Region</th>
+          <th>Deleted By</th>
+          <th>Deleted Time</th>
+          <th>View</th>
+          <th class="Delete">Delete</th>
+        </tr>
+        
+        <tr>
+          {% for dvehvids in del_veh_list %}
+          <td class="AccidentType"><small>{{dvehvids.incident}}</small></td>
+          <td>{{dvehvids.uploaded_by}}</td>
+          <td class="eventTime">{{dvehvids.created}}</td>
+          <td class="UploadTime">{{dvehvids.upload}}</td>
+          <td>{{dvehvids.region}}</td>
+          <td>{{dvehvids.deleted_by}}</td>
+          <td>{{dvehvids.deleted_time|date}} _ {{dvehvids.deleted_time|time}}</td>
+          <td><a href="{% url 'deleventdetail' dvehvids.id %}"><button class="btn-solid-sm" >View</button></a></td>
+          <td class="Delete"><a href="{% url 'deletevent' dvehvids.id %}"><button class="btn-del" >Delete</button></a></td>
+        </tr>
+        {% endfor %}
+      </table>
+      
+      <div class="pagination">
+        <strong>
+          {% if del_veh_list.has_previous %}
+          <a href="?page-1="> <span class="fa-solid fa-arrow-left"></span></a>
+          <a href="?page={{ del_veh_list.previous_page_number }}">Previous</a>
+          {% endif %}
+          
+          <h5>{{ del_veh_list }}</h5>
+          {% if del_veh_list.has_next %}
+          <a href="?page={{ del_veh_list.next_page_number }}">Next</a>
+          <a href="?page={{ del_veh_list.paginator.num_pages }}"> <span class="fa-solid fa-arrow-right"></span></a>
+          {% endif %}
+        </strong>
+      </div>
+    </div>
+  </div>
+  
+</section>
+{% endif %}
+{% endblock content %}

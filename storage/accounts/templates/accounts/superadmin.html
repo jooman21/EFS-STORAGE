@@ -1,0 +1,304 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+{% if user.is_superuser %}
+<style>
+.icon-case  {
+  position: relative;
+  display: flex;
+  margin: 20px 70px;
+}
+.card-title{
+  display: block;
+  padding-left: 20px;
+}
+.card-num{
+  display: block;
+  padding-top: 10px;
+  padding-left: 80px;
+}
+.total_regions{
+  top: 10vh;
+}
+.S-adminsearch{
+  position: relative;
+  display: flex;
+  top: 10vh;
+  margin-bottom: 5vh;
+}
+@media screen and (max-width: 767px){
+.TotalEvents{
+  display: none;
+}
+.section{
+  position: relative;
+  left: 5vw;
+  width: fit-content;
+}
+.superuser-cards {
+  position: relative;
+    left: 10px;
+    margin-right: -1px;
+    width: 570px;
+  }
+  
+
+  .superuser-card {
+    margin-left: 6vw;
+    height: 125px;
+
+
+  } 
+  .icon-case  {
+  margin: 15px -120px 25px  20px;
+}
+.card-title{
+  margin: -15px 19px 0 0;
+  font-size: 18px;
+}
+.card-num{
+  padding-top: 10px;
+  padding-left: 30px;
+}
+.shorttitle{
+  margin: -15px -15px 0 0;
+  font-size: 20px;
+  width: 120px;
+}
+.shorttitleUser{
+  font-size: 20px;
+  margin: -12px 0 0 -10px ;
+  width: 90px;
+  }
+  .card-more-btn{
+ position: relative;
+ top: 15vh;
+ left: -45vw;
+ height: 30px;
+}
+.btn-solid-lg{
+
+  margin: -8px -3px 0 0;
+  width: 22vw;
+  font-size: 12px;
+}
+
+.total_regions{
+  left: 25px;
+  width: 65%;
+
+}
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .superuser-cards {
+    left: 70px;
+    margin-left: -25px;
+  }
+  
+
+  .superuser-card {
+    width: 108px;
+  }
+  .icon-case  {
+  margin: 15px 0 25px 50px ;
+}
+.card-title{
+  margin: -15px -15px 0 0;
+  font-size: 18px;
+}
+.shorttitle{
+  font-size: 20px;
+}
+.shorttitleUser{
+  font-size: 20px;
+  margin: -5px 0 0 -10px ;
+  }
+.card-num{
+  padding-top: 10px;
+  padding-left: 50px;
+}
+.card-more-btn{
+ position: relative;
+ top: 15vh;
+ left: -45vw;
+ height: 30px;
+
+}
+.btn-solid-lg{
+  height: 30px;
+  padding: 1rem 2rem 1rem 1rem;
+}
+  .total_regions{
+    left: 5vw;
+   width: 65%;
+}
+}
+
+
+@media screen and (min-width: 1024px) and (max-width: 1365px){
+  .superuser-cards {
+    left: 50px;
+    margin-left: -25px;
+  }
+.card-title{
+  margin-left: -15px;
+  font-size: 18px;
+}
+.card-num{
+  padding-top: 10px;
+  padding-left: 60px;
+}
+.btn-solid-lg{
+  padding: 1.625rem 2.625rem 1.625rem 1.625rem;
+}
+.icon-case  {
+  margin: 30px 0 10px 50px ;
+}
+.total_regions{
+  width: 75%;
+}
+}
+
+@media (min-width: 1366px) {
+  .superuser-cards {
+    left: 50px;
+  }
+  .icon-case  {
+  margin: 20px 100px 20px 100px;
+}
+.card-title{
+  padding-left: 60px;
+}
+.card-num{
+  padding-top: 10px;
+  padding-left: 110px;
+}
+}
+
+</style>
+  
+
+<section class="section">
+
+  <div class="superuser-cards">
+      <div class="superuser-card">
+
+        <div class="icon-case">
+          <span class="fa-solid fa-car-burst"></span>
+        </div>
+        
+        <div class="box">
+            <h5 class="card-title">Vehicle Event's</h5>
+            <h5 class="card-num" >{{total_vehvid}}</h5>
+        </div>
+      </div> 
+      
+
+      <div class="superuser-card">
+
+        <div class="icon-case">
+          <span class="fa-solid fa-person-falling-burst"></span>
+        </div>
+
+        <div class="box">
+          <h5 class="card-title">Murder Event's</h5>
+          <h5 class="card-num" >{{total_murvid}}</h5>
+        </div>
+      </div>
+
+      <div class="superuser-card">
+        <div class="icon-case">
+          <span class="fa-solid fa-person-running"></span>
+        </div>
+
+        <div class="box">
+          <h5 class="card-title shorttitle">Theft Event's</h5>
+          <h5 class="card-num" >{{total_thfvid}}</h5>
+        </div>
+      </div> 
+
+      <div class="superuser-card TotalEvents">
+        <div class="icon-case">
+          <span class="fa-solid fa-check"></span>
+        </div>
+
+        <div class="box">
+          <h5 class="card-title shorttitle">Total Event's</h5>
+          <h5 class="card-num">{{total_videos}}</h5>
+        </div>
+      </div>
+
+      <div class="superuser-card">
+        <div class="icon-case">
+          <span class="fa-solid fa-users"></span>
+        </div>
+
+        <div class="box">
+          <h5 class="card-title shorttitleUser">Total User's</h5>
+          <h5 class="card-num">{{accounts}}</h5>
+        </div>
+      </div> 
+
+      <div class="card-more-btn">
+        <a class="btn-solid-lg" href="{% url 'statics' %}">More Details</a>
+     </div>
+  </div>
+
+
+  <div class="S-adminsearch">
+      <form action="{% url 'adminsearch' %}" method="GET" class="search-bar">
+        <input type="text"style="color: white;" placeholder="Search Video" name="q" >
+        <label for="date-input"></label>
+        <input type="date" id="date-input" name="d">
+        <button type="submit"><span class="fa-brands fa-searchengin"></span></button>
+      </form>
+  </div>
+
+  <div class="total_regions">
+    <div class="title">
+      <h2>Total Regions</h2>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Region Name</th>
+          <th>Created By</th>
+          <th>Created Date</th>
+          <th>View</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        <tr>
+          {% for region in region_list %}
+          <td><small>{{region.name}}</small></td>
+          <td>{{region.created_by}}</td>
+          <td>{{region.created|date}}</td>  
+          <td><a href="{% url 'regions' region.id %}"><button class="btn-solid-sm" >View</button></a></th> 
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    
+    <div class="pagination">
+      <strong>
+        {% if region_list.has_previous %}
+        <a href="?page-1=" class="btn btn-primary active"> <span class="fa-solid fa-arrow-left"></span></a>
+        <a href="?page={{ region_list.previous_page_number }}" class="btn btn-primary">Previous</a>
+        {% endif %}
+        <h5>{{ region_list }}</h5>
+        {% if region_list.has_next %}
+        <a href="?page={{ region_list.next_page_number }}" class="btn btn-primary">Next</a>
+        <a href="?page={{ region_list.paginator.num_pages }}" class="btn btn-primary active"> <span class="fa-solid fa-arrow-right"></span></a>
+        {% endif %}
+      </strong>
+    </div>
+
+  </div>
+</section>
+{% else %}
+{% include 'invalid.html' %}
+{% endif %}
+{% endblock content %}

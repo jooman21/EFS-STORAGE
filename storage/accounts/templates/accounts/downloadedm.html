@@ -1,0 +1,110 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated and user.is_superuser %}
+<style>
+  .enav{
+    margin-left: -4vw;
+    }
+  .total_regions{
+    margin-left: 12vw; 
+    top: 8vh;
+    }
+    @media screen and (max-width: 767px){
+      .enav{
+    top: 5vh;
+    left: 10vw;
+    }
+  .total_regions{
+    top: 20vh;
+    left: -5vw;
+    width: 85%;
+  }
+  .ET, .uploadedby{
+    display: none;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .enav{
+    top: 5vh;
+    left: 10vw;
+    }
+  .total_regions{
+    top: 20vh;
+    left: -5vw;
+    width: 85%;
+  }
+  .ET{
+    display: none;
+  }
+}
+
+
+@media screen and (min-width: 1024px) and (max-width: 1365px){
+  .enav{
+    top: 5vh;
+    left: 5vw;
+    }
+  .total_regions{
+    top: 20vh;
+    left: -5vw;
+    }
+}
+
+</style>
+<section>
+  <div class="enav" >
+    {% include 'Mnav.html' %}
+  </div>
+  
+  <div class="total_regions" >
+    <div class="title">
+      <h2>Total of {{total_dVideo}} Downloaded Murder Event's</h2>
+    </div>
+    
+    <table>
+      <tr>
+        <th>Region</th>
+        <th>Accident Type</th>
+        <th class="uploadedby">Upload By</th>
+        <th class="ET">Event Time</th>
+        <th>Upload Time</th>
+        <th>Downloaded By</th>
+        <th>Downloaded Time</th>
+        <th>View</th>
+        
+      </tr>
+      <tr>
+        {% for d_mur_event in video %}
+        <td style="border-bottom: solid white 1px; padding: 4px;">{{d_mur_event.region|default_if_none:"Super Admin" }}</td>
+        <td style="border-bottom: solid white 1px; padding: 4px;">{{d_mur_event.incident}}</td>
+        <td class="uploadedby" style="border-bottom: solid white 1px; padding: 4px;">{{d_mur_event.uploaded_by}}</td>
+        <td class="ET" style="border-bottom: solid white 1px; padding: 4px;">{{d_mur_event.created}}</td>
+        <td style="border-bottom: solid white 1px; padding: 4px;">{{d_mur_event.upload}}</td>
+        <td style="border-bottom: solid white 1px; padding: 4px;">{{d_mur_event.downloaded_by}}</td>
+        <td style="border-bottom: solid white 1px; padding: 4px;">{{d_mur_event.download_time}}</td>
+        <td style="border-bottom: solid white 1px; padding: 4px;"><a href="{% url 'downloaded_detail2' d_mur_event.id %}"><button class="btn-solid-sm " >View</button</a></td> 
+      </tr>
+      {% endfor %}
+    </table>
+    
+    <div class="pagination">
+      <strong>
+        {% if video.has_previous %}
+        <a href="?page-1="> <span class="fa-solid fa-arrow-left"></span></a>
+        <a href="?page={{ video.previous_page_number }}">Previous</a>
+        {% endif %}
+        <h5>{{ video }}</h5>
+        {% if video.has_next %}
+        <a href="?page={{ video.next_page_number }}">Next</a>
+        <a href="?page={{ video.paginator.num_pages }}"> <span class="fa-solid fa-arrow-right"></span></a>
+        {% endif %}
+      </strong>
+    </div>
+  </div>
+</section>
+{% else %}
+{% include 'note.html' %}
+{% endif %}
+{% endblock content %}

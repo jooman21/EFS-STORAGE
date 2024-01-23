@@ -1,0 +1,73 @@
+{% extends 'index.html' %} 
+{% load static %} 
+{% block content %} 
+<style>
+.card-body{
+    width: 55vw;
+    margin-left: -5vw;
+}
+.upload-form{
+    float: none;
+    display: flex;
+    margin-top: 60px;
+}
+.btn-goback{
+    top: 0vh;
+    left: 8vw;
+    display: inline-block;
+}
+.del-user{
+    display: flex;
+}
+.btn-del{
+    left: 30vw;
+}
+@media screen and (max-width: 767px){
+    .btn-goback{
+    left: -7vw;
+}
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    .btn-goback{
+    left: 3vw;
+}
+}
+
+@media screen and (min-width: 1366px) {
+.btn-goback{
+    left: 13vw;
+}
+}
+
+</style>
+<section>
+    <div class="card-body">
+        <div class="card-header">
+            <h1 class="label">Are you sure you want to Delete?</h1>
+          </div>
+        
+        <div class="user">
+            <h5><b>First Name:</b> {{user.first_name}}</h5>
+            <h5><b>Last Name:</b> {{user.last_name}}</h5>
+            <h5><b>Region:</b> {{user.region}}</h5> 
+        </div>
+        
+        <form action="{% url 'deleteuser' user.id %}" method="POST" class="upload-form"> 
+            {% csrf_token %}
+            
+            <div class="del-user">
+                <button class="btn-del" value="delete" name="confirm">Confirm</button>
+            </div>
+
+            <div class="btn-goback"> 
+                {% if request.user.is_superuser %}  
+                    <a href="{% url 'superadmin' %}"><button type="button" class="btn-solid-sm" >Cancle</button></a>
+                {% else %} 
+                    <a href="{% url 'usercreation' %}"><button type="button" class="btn-solid-sm" >Cancle</button></a>    
+            </div>
+        </form> 
+    </div>
+ </section> 
+{% endif %} 
+{% endblock content %}
